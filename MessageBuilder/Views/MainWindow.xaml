@@ -57,6 +57,14 @@
         <Border
             Grid.Row="2"
             Grid.Column="0"
-            Grid.ColumnSpan="2" />
+            Grid.ColumnSpan="2">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button
+                    Padding="15,6"
+                    Command="{Binding AddTextItemCommand}"
+                    Content="Add"
+                    FontSize="16" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

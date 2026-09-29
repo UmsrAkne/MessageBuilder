@@ -19,6 +19,11 @@ namespace MessageBuilder.ViewModels
 
         public ObservableCollection<TextListItem> TextListItems { get; set; } = new ();
 
+        public DelegateCommand AddTextItemCommand => new DelegateCommand(() =>
+        {
+            TextListItems.Add(new TextListItem(string.Empty) { Info = string.Empty, });
+        });
+
         [Conditional("DEBUG")]
         private void SetDummyData()
         {
