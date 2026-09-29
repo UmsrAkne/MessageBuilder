@@ -47,7 +47,10 @@
                 <DataTemplate DataType="{x:Type viewModels:TextListItem}">
                     <Border>
                         <StackPanel Margin="2">
-                            <TextBox BorderThickness="0,0,0,1" Text="{Binding Info}" />
+                            <TextBox
+                                BorderThickness="0,0,0,1"
+                                Text="{Binding Info}"
+                                Visibility="{Binding IsCodeBlock, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                             <Border
                                 Margin="2,2,4,1"

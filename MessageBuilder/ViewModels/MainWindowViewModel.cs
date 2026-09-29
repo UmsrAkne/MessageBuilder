@@ -27,9 +27,12 @@ namespace MessageBuilder.ViewModels
         [Conditional("DEBUG")]
         private void SetDummyData()
         {
-            TextListItems.Add(new TextListItem("Dummy Text 1111") { Info = "lang info1", });
-            TextListItems.Add(new TextListItem("Dummy Text 2222") { Info = "lang info2", });
-            TextListItems.Add(new TextListItem("Dummy Text 3333") { Info = "lang info3", });
+            TextListItems.Add(new TextListItem("Dummy Text 1111") { Info = "lang info1", IsCodeBlock = true, });
+            TextListItems.Add(new TextListItem("Dummy Text 2222") { Info = "lang info2", IsCodeBlock = true, });
+
+            TextListItems.Add(new TextListItem("Dummy Text 2222") { IsCodeBlock = false, });
+
+            TextListItems.Add(new TextListItem("Dummy Text 3333") { Info = "lang info3", IsCodeBlock = true, });
         }
     }
 }
