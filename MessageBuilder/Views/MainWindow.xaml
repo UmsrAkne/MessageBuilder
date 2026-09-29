@@ -10,5 +10,53 @@
     Height="480"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     mc:Ignorable="d">
-    <Grid />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!-- ヘッダー -->
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2" />
+
+        <!-- メインコンテンツ -->
+        <ItemsControl
+            Grid.Row="1"
+            Grid.Column="1"
+            ItemsSource="{Binding TextListItems}">
+
+            <ItemsControl.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+                    <Setter Property="Foreground" Value="WhiteSmoke" />
+                </Style>
+            </ItemsControl.Resources>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type viewModels:TextListItem}">
+                    <Border BorderBrush="AliceBlue" BorderThickness="0,1,0,0">
+                        <StackPanel>
+                            <TextBox Text="{Binding Info}" />
+                            <TextBox Text="{Binding Text}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- フッター（追加ボタン等） -->
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2" />
+    </Grid>
 </Window>
