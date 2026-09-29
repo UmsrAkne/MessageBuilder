@@ -1,0 +1,29 @@
+﻿<prism:PrismApplication
+    x:Class="MessageBuilder.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme
+                    BaseTheme="Dark"
+                    PrimaryColor="Blue"
+                    SecondaryColor="Amber" />
+
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesign2.defaults.xaml" />
+
+                <!-- MahApps の辞書。ウィンドウ自体のデザインを変更する部分 -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/dark.steel.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <system:Double x:Key="GlobalFontSize">15</system:Double>
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>
