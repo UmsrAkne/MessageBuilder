@@ -10,5 +10,144 @@
     Height="480"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     mc:Ignorable="d">
-    <Grid />
+    <Grid Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!-- ヘッダー -->
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2" />
+
+        <!-- メインコンテンツ -->
+        <ItemsControl
+            Grid.Row="1"
+            Grid.Column="1"
+            ItemsSource="{Binding TextListItems}">
+
+            <ItemsControl.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+                    <Setter Property="Foreground" Value="WhiteSmoke" />
+                    <Setter Property="Margin" Value="2" />
+                    <Setter Property="Padding" Value="3" />
+                    <Setter Property="CaretBrush" Value="LightSkyBlue" />
+                </Style>
+            </ItemsControl.Resources>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type viewModels:TextListItem}">
+                    <Border x:Name="ItemRoot" Margin="2,3">
+                        <StackPanel>
+                            <!-- ① 言語指定 (Info) 欄: コードブロック時のみ上部に小さく表示 -->
+                            <Border
+                                x:Name="InfoBadge"
+                                Margin="0,0,0,-1"
+                                Padding="4,1"
+                                HorizontalAlignment="Left"
+                                Panel.ZIndex="1"
+                                Background="DimGray"
+                                CornerRadius="3,3,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="11"
+                                        Foreground="LightSteelBlue"
+                                        Text="lang: " />
+                                    <TextBox
+                                        Padding="0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        FontFamily="Cascadia Code, Consolas, Courier New"
+                                        FontSize="13"
+                                        Text="{Binding Info, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- ② テキスト本体のコンテナ -->
+                            <Border
+                                x:Name="TextContainer"
+                                Padding="2"
+                                BorderThickness="1"
+                                CornerRadius="4">
+                                <TextBox
+                                    x:Name="ContentTextBox"
+                                    AcceptsReturn="True"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- トリガーによるスタイル切り替え -->
+                    <DataTemplate.Triggers>
+                        <!-- ============================================== -->
+                        <!-- 通常テキストの場合 (IsCodeBlock = False) -->
+                        <!-- ============================================== -->
+                        <DataTrigger Binding="{Binding IsCodeBlock}" Value="False">
+                            <!-- Info欄は非表示 -->
+                            <Setter TargetName="InfoBadge" Property="Visibility" Value="Collapsed" />
+                            <!-- 枠線や背景をなくしてプレーンにする -->
+                            <Setter TargetName="TextContainer" Property="BorderBrush" Value="#444444" />
+                            <Setter TargetName="TextContainer" Property="Background" Value="#222222" />
+                            <!-- 標準フォント & Tabはフォーカス移動に使用 -->
+                            <Setter TargetName="ContentTextBox" Property="AcceptsTab" Value="False" />
+                            <Setter TargetName="ContentTextBox" Property="FontFamily" Value="Yu Gothic UI, Segoe UI" />
+                            <Setter TargetName="ContentTextBox" Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+                        </DataTrigger>
+
+                        <!-- ============================================== -->
+                        <!-- コードブロックの場合 (IsCodeBlock = True) -->
+                        <!-- ============================================== -->
+                        <DataTrigger Binding="{Binding IsCodeBlock}" Value="True">
+                            <Setter TargetName="InfoBadge" Property="Visibility" Value="Visible" />
+                            <!-- 背景を少しグレーにし、枠線をつける -->
+                            <Setter TargetName="TextContainer" Property="Background" Value="#333333" />
+                            <Setter TargetName="TextContainer" Property="BorderBrush" Value="DarkGray" />
+                            <!-- 等幅フォント & Tab入力を許可 -->
+                            <Setter TargetName="ContentTextBox" Property="AcceptsTab" Value="True" />
+                            <Setter TargetName="ContentTextBox" Property="FontFamily" Value="Cascadia Code, Consolas, Courier New" />
+                            <Setter TargetName="ContentTextBox" Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+                        </DataTrigger>
+
+                        <!-- ============================================== -->
+                        <!-- フォーカス時の枠線色変更（コードブロック時） -->
+                        <!-- ============================================== -->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsCodeBlock}" Value="True" />
+                                <Condition Binding="{Binding ElementName=TextContainer, Path=IsKeyboardFocusWithin}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="TextContainer" Property="BorderBrush" Value="#0078D7" />
+                        </MultiDataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- フッター（追加ボタン等） -->
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button
+                    Padding="15,6"
+                    Command="{Binding AddTextItemCommand}"
+                    Content="Add"
+                    FontSize="16" />
+            </StackPanel>
+        </Border>
+    </Grid>
 </Window>
