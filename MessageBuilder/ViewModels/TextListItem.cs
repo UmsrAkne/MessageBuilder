@@ -5,6 +5,7 @@
         private string text = string.Empty;
         private string info = string.Empty;
         private bool isCodeBlock;
+        private bool isIncluded = true;
 
         public TextListItem(string text)
         {
@@ -29,5 +30,7 @@
         }
 
         public bool IsCodeBlock { get => isCodeBlock; set => SetProperty(ref isCodeBlock, value); }
+
+        public bool IsIncluded { get => isIncluded; set => SetProperty(ref isIncluded, value); }
     }
 }

@@ -55,10 +55,19 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- 有効無効の切り替え（未実装） -->
-                            <CheckBox Grid.Column="0" />
+                            <!-- 有効無効の切り替え -->
+                            <CheckBox Grid.Column="0" IsChecked="{Binding IsIncluded}" />
 
                             <StackPanel Grid.Column="1">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsIncluded}" Value="False">
+                                                <Setter Property="Opacity" Value="0.4" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
                                 <!-- ① 言語指定 (Info) 欄: コードブロック時のみ上部に小さく表示 -->
                                 <Border
                                     x:Name="InfoBadge"
