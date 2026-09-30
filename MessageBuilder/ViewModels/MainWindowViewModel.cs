@@ -24,6 +24,11 @@ namespace MessageBuilder.ViewModels
             TextListItems.Add(new TextListItem(string.Empty) { Info = string.Empty, });
         });
 
+        public DelegateCommand<TextListItem> DeleteTextItemCommand => new (item =>
+        {
+            TextListItems.Remove(item);
+        });
+
         [Conditional("DEBUG")]
         private void SetDummyData()
         {

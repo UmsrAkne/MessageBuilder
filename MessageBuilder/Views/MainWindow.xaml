@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:MessageBuilder.ViewModels"
     Title="{Binding Title}"
@@ -47,47 +48,73 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type viewModels:TextListItem}">
                     <Border x:Name="ItemRoot" Margin="2,3">
-                        <StackPanel>
-                            <!-- ① 言語指定 (Info) 欄: コードブロック時のみ上部に小さく表示 -->
-                            <Border
-                                x:Name="InfoBadge"
-                                Margin="0,0,0,-1"
-                                Padding="4,1"
-                                HorizontalAlignment="Left"
-                                Panel.ZIndex="1"
-                                Background="DimGray"
-                                CornerRadius="3,3,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="11"
-                                        Foreground="LightSteelBlue"
-                                        Text="lang: " />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- 有効無効の切り替え（未実装） -->
+                            <CheckBox Grid.Column="0" />
+
+                            <StackPanel Grid.Column="1">
+                                <!-- ① 言語指定 (Info) 欄: コードブロック時のみ上部に小さく表示 -->
+                                <Border
+                                    x:Name="InfoBadge"
+                                    Margin="0,0,0,-1"
+                                    Padding="4,1"
+                                    HorizontalAlignment="Left"
+                                    Panel.ZIndex="1"
+                                    Background="DimGray"
+                                    CornerRadius="3,3,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            Foreground="LightSteelBlue"
+                                            Text="lang: " />
+                                        <TextBox
+                                            Padding="0"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            FontFamily="Cascadia Code, Consolas, Courier New"
+                                            FontSize="13"
+                                            Text="{Binding Info, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- ② テキスト本体のコンテナ -->
+                                <Border
+                                    x:Name="TextContainer"
+                                    Padding="2"
+                                    BorderThickness="1"
+                                    CornerRadius="4">
                                     <TextBox
-                                        Padding="0"
+                                        x:Name="ContentTextBox"
+                                        AcceptsReturn="True"
                                         Background="Transparent"
                                         BorderThickness="0"
-                                        FontFamily="Cascadia Code, Consolas, Courier New"
-                                        FontSize="13"
-                                        Text="{Binding Info, UpdateSourceTrigger=PropertyChanged}" />
-                                </StackPanel>
-                            </Border>
+                                        Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                        TextWrapping="Wrap" />
+                                </Border>
+                            </StackPanel>
 
-                            <!-- ② テキスト本体のコンテナ -->
-                            <Border
-                                x:Name="TextContainer"
-                                Padding="2"
-                                BorderThickness="1"
-                                CornerRadius="4">
-                                <TextBox
-                                    x:Name="ContentTextBox"
-                                    AcceptsReturn="True"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-                                    TextWrapping="Wrap" />
-                            </Border>
-                        </StackPanel>
+                            <Button
+                                Grid.Column="2"
+                                Width="40"
+                                Height="35"
+                                Margin="5,0"
+                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.DeleteTextItemCommand}"
+                                CommandParameter="{Binding}">
+                                <Button.Content>
+                                    <materialDesign:PackIcon
+                                        Width="20"
+                                        Height="20"
+                                        Kind="TrashCan" />
+                                </Button.Content>
+                            </Button>
+                        </Grid>
                     </Border>
 
                     <!-- トリガーによるスタイル切り替え -->
