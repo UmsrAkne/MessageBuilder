@@ -24,6 +24,16 @@ namespace MessageBuilder.ViewModels
             TextListItems.Add(new TextListItem(string.Empty) { Info = string.Empty, });
         });
 
+        public DelegateCommand<TextListItem> DeleteTextItemCommand => new (item =>
+        {
+            TextListItems.Remove(item);
+        });
+
+        public DelegateCommand ClearTextListItemsCommand => new (() =>
+        {
+            TextListItems.Clear();
+        });
+
         [Conditional("DEBUG")]
         private void SetDummyData()
         {
@@ -33,6 +43,9 @@ namespace MessageBuilder.ViewModels
             TextListItems.Add(new TextListItem("Dummy Text 2222") { IsCodeBlock = false, });
 
             TextListItems.Add(new TextListItem("Dummy Text 3333") { Info = "lang info3", IsCodeBlock = true, });
+
+            TextListItems.Add(new TextListItem("Dummy Text 4444") { Info = "lang info4", IsCodeBlock = true, IsIncluded = false, });
+            TextListItems.Add(new TextListItem("Dummy Text 5555") { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
         }
     }
 }
