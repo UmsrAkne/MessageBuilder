@@ -167,14 +167,30 @@
         <Border
             Grid.Row="2"
             Grid.Column="0"
-            Grid.ColumnSpan="2">
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            Grid.ColumnSpan="2"
+            Margin="0,10,0,0">
+            <DockPanel LastChildFill="False">
+                <!-- 危険な操作は左端へ（目立たせすぎず、誤爆しにくい位置） -->
                 <Button
-                    Padding="15,6"
+                    Padding="12,6"
+                    Background="Transparent"
+                    BorderBrush="IndianRed"
+                    BorderThickness="1"
+                    Command="{Binding ClearTextListItemsCommand}"
+                    Content="Clear all"
+                    DockPanel.Dock="Left"
+                    FontSize="14"
+                    Foreground="IndianRed" />
+
+                <!-- 主操作は右端へ -->
+                <Button
+                    Padding="20,6"
                     Command="{Binding AddTextItemCommand}"
                     Content="Add"
-                    FontSize="16" />
-            </StackPanel>
+                    DockPanel.Dock="Right"
+                    FontSize="16"
+                    FontWeight="Bold" />
+            </DockPanel>
         </Border>
     </Grid>
 </Window>

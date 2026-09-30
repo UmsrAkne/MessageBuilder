@@ -29,6 +29,11 @@ namespace MessageBuilder.ViewModels
             TextListItems.Remove(item);
         });
 
+        public DelegateCommand ClearTextListItemsCommand => new (() =>
+        {
+            TextListItems.Clear();
+        });
+
         [Conditional("DEBUG")]
         private void SetDummyData()
         {
