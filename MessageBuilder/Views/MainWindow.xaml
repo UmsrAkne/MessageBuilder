@@ -33,7 +33,7 @@
         <ItemsControl
             Grid.Row="1"
             Grid.Column="1"
-            ItemsSource="{Binding TextListItems}">
+            ItemsSource="{Binding TextListViewModel.TextListItems}">
 
             <ItemsControl.Resources>
                 <Style TargetType="TextBox">
@@ -114,7 +114,7 @@
                                 Width="40"
                                 Height="35"
                                 Margin="5,0"
-                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.DeleteTextItemCommand}"
+                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.DeleteTextItemCommand}"
                                 CommandParameter="{Binding}">
                                 <Button.Content>
                                     <materialDesign:PackIcon
@@ -185,7 +185,7 @@
                     Background="Transparent"
                     BorderBrush="IndianRed"
                     BorderThickness="1"
-                    Command="{Binding ClearTextListItemsCommand}"
+                    Command="{Binding TextListViewModel.ClearTextListItemsCommand}"
                     Content="Clear all"
                     DockPanel.Dock="Left"
                     FontSize="14"
@@ -194,7 +194,7 @@
                 <!-- 主操作は右端へ -->
                 <Button
                     Padding="20,6"
-                    Command="{Binding AddTextItemCommand}"
+                    Command="{Binding TextListViewModel.AddTextItemCommand}"
                     Content="Add"
                     DockPanel.Dock="Right"
                     FontSize="16"
