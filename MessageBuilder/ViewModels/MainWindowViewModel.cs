@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using MessageBuilder.Services;
 using MessageBuilder.Utils;
 
 namespace MessageBuilder.ViewModels
@@ -10,13 +11,24 @@ namespace MessageBuilder.ViewModels
 
         public MainWindowViewModel()
         {
+            TextListViewModel = new TextListViewModel(new ToastService());
+            AppLogger.Info("MainWindowViewModel created");
+            SetDummyData();
+        }
+
+        public MainWindowViewModel(TextListViewModel textListViewModel, ToastService toastService)
+        {
+            ToastService = toastService;
+            TextListViewModel = textListViewModel;
             AppLogger.Info("MainWindowViewModel created");
             SetDummyData();
         }
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
-        public TextListViewModel TextListViewModel { get; set; } = new ();
+        public ToastService ToastService { get; set; } = new ();
+
+        public TextListViewModel TextListViewModel { get; set; }
 
         [Conditional("DEBUG")]
         private void SetDummyData()

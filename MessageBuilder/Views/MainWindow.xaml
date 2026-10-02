@@ -16,7 +16,7 @@
     <Window.InputBindings>
         <KeyBinding
             Key="C"
-            Command="{Binding TextListViewModel.CopyToClipboardCommand}"
+            Command="{Binding TextListViewModel.CopyToClipboardAsyncCommand}"
             Modifiers="Control+Shift" />
     </Window.InputBindings>
     <Grid Margin="4">
@@ -239,12 +239,82 @@
                 <Button
                     Padding="20,6"
                     mah:ControlsHelper.ContentCharacterCasing="Normal"
-                    Command="{Binding TextListViewModel.CopyToClipboardCommand}"
+                    Command="{Binding TextListViewModel.CopyToClipboardAsyncCommand}"
                     Content="Copy ( Ctrl + Shift + C )"
                     DockPanel.Dock="Right"
                     FontSize="16"
                     FontWeight="Bold" />
             </DockPanel>
+        </Border>
+
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Padding="24,14"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="#E6222222"
+            BorderBrush="#555555"
+            BorderThickness="1"
+            CornerRadius="8"
+            IsHitTestVisible="False"
+            Opacity="0">
+            <Border.Effect>
+                <DropShadowEffect
+                    BlurRadius="16"
+                    Opacity="0.5"
+                    ShadowDepth="2" />
+            </Border.Effect>
+
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <!-- MaterialDesignのチェックアイコン（必要に応じて） -->
+                <materialDesign:PackIcon
+                    Width="22"
+                    Height="22"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    Foreground="LightSkyBlue"
+                    Kind="CheckCircleOutline" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    FontWeight="SemiBold"
+                    Foreground="WhiteSmoke"
+                    Text="{Binding ToastService.ToastMessage}" />
+            </StackPanel>
+
+            <!-- フェードイン・フェードアウトのアニメーション定義 -->
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ToastService.IsToastVisible}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
         </Border>
     </Grid>
 </Window>

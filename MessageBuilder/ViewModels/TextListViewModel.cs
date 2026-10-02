@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 using MessageBuilder.Services;
 
 namespace MessageBuilder.ViewModels
@@ -7,6 +8,13 @@ namespace MessageBuilder.ViewModels
     public class TextListViewModel
     {
         private PromptBuilder promptBuilder = new ();
+        private readonly ToastService toastService;
+        private AsyncRelayCommand copyToClipboardCommand;
+
+        public TextListViewModel(ToastService toastService)
+        {
+            this.toastService = toastService;
+        }
 
         public ObservableCollection<TextListItem> TextListItems { get; set; } = new ();
 
@@ -30,11 +38,14 @@ namespace MessageBuilder.ViewModels
             MoveItem(param, 1);
         });
 
-        public DelegateCommand CopyToClipboardCommand => new DelegateCommand(() =>
-        {
-            var result = promptBuilder.BuildPrompt([.. TextListItems,]);
-            Clipboard.SetText(result);
-        });
+        public AsyncRelayCommand CopyToClipboardAsyncCommand =>
+            copyToClipboardCommand = new AsyncRelayCommand(async () =>
+            {
+                var result = promptBuilder.BuildPrompt([.. TextListItems,]);
+                Clipboard.SetText(result);
+
+                await toastService.ShowToastAsync("Copied to clipboard");
+            });
 
         public DelegateCommand ClearTextListItemsCommand => new (() =>
         {
