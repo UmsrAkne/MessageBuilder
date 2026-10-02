@@ -56,7 +56,20 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- 有効無効の切り替え -->
-                            <CheckBox Grid.Column="0" IsChecked="{Binding IsIncluded}" />
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+
+                                <CheckBox IsChecked="{Binding IsIncluded}" />
+                                <StackPanel>
+                                    <Button
+                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveUpItemCommand}"
+                                        CommandParameter="{Binding}"
+                                        Content="Up" />
+                                    <Button
+                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveDownItemCommand}"
+                                        CommandParameter="{Binding}"
+                                        Content="Down" />
+                                </StackPanel>
+                            </StackPanel>
 
                             <StackPanel Grid.Column="1">
                                 <StackPanel.Style>
