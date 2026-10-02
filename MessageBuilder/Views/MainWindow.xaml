@@ -55,7 +55,12 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type viewModels:TextListItem}">
-                    <Border x:Name="ItemRoot" Margin="2,3">
+                    <Border
+                        x:Name="ItemRoot"
+                        Margin="2,4"
+                        Padding="0,0,0,6"
+                        BorderBrush="DimGray"
+                        BorderThickness="0,0,0,2">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -68,18 +73,28 @@
 
                                 <CheckBox IsChecked="{Binding IsIncluded}" />
                                 <StackPanel>
-                                    <Button
-                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveUpItemCommand}"
-                                        CommandParameter="{Binding}"
-                                        Content="Up" />
-                                    <Button
-                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveDownItemCommand}"
-                                        CommandParameter="{Binding}"
-                                        Content="Down" />
+                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveUpItemCommand}" CommandParameter="{Binding}">
+                                        <Button.Content>
+                                            <materialDesign:PackIcon
+                                                Width="18"
+                                                Height="15"
+                                                Kind="ArrowUp" />
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Border Width="0" Height="4" />
+                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveDownItemCommand}" CommandParameter="{Binding}">
+                                        <Button.Content>
+                                            <materialDesign:PackIcon
+                                                Width="18"
+                                                Height="15"
+                                                Kind="ArrowDown" />
+                                        </Button.Content>
+                                    </Button>
                                 </StackPanel>
                             </StackPanel>
 
-                            <StackPanel Grid.Column="1">
+                            <StackPanel Grid.Column="1" Margin="4,0,0,0">
                                 <StackPanel.Style>
                                     <Style TargetType="StackPanel">
                                         <Style.Triggers>
@@ -92,7 +107,7 @@
                                 <!-- ① 言語指定 (Info) 欄: コードブロック時のみ上部に小さく表示 -->
                                 <Border
                                     x:Name="InfoBadge"
-                                    Margin="0,0,0,-1"
+                                    Margin="1,0,0,-1"
                                     Padding="4,1"
                                     HorizontalAlignment="Left"
                                     Panel.ZIndex="1"
