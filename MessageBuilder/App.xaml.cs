@@ -1,6 +1,5 @@
 ﻿using System.Windows;
-using Prism.DryIoc;
-using Prism.Ioc;
+using MessageBuilder.Services;
 using MessageBuilder.Views;
 
 namespace MessageBuilder;
@@ -12,6 +11,8 @@ public partial class App
 {
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
+        var toastService = new ToastService();
+        containerRegistry.RegisterInstance(toastService);
     }
 
     protected override Window CreateShell()
