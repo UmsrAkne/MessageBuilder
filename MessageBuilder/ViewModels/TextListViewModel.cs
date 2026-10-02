@@ -1,9 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
+using MessageBuilder.Services;
 
 namespace MessageBuilder.ViewModels
 {
     public class TextListViewModel
     {
+        private PromptBuilder promptBuilder = new ();
+
         public ObservableCollection<TextListItem> TextListItems { get; set; } = new ();
 
         public DelegateCommand AddTextItemCommand => new DelegateCommand(() =>
@@ -24,6 +28,12 @@ namespace MessageBuilder.ViewModels
         public DelegateCommand<TextListItem> MoveDownItemCommand => new ((param) =>
         {
             MoveItem(param, 1);
+        });
+
+        public DelegateCommand CopyToClipboardCommand => new DelegateCommand(() =>
+        {
+            var result = promptBuilder.BuildPrompt([.. TextListItems,]);
+            Clipboard.SetText(result);
         });
 
         public DelegateCommand ClearTextListItemsCommand => new (() =>
