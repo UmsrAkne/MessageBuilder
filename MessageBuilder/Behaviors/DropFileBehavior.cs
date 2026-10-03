@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using MessageBuilder.Utils;
 using MessageBuilder.ViewModels;
 using Microsoft.Xaml.Behaviors;
 
@@ -48,18 +49,34 @@ namespace MessageBuilder.Behaviors
                     return;
                 }
 
-                var allowedFiles = files
-                    .Where(f => !string.IsNullOrWhiteSpace(f))
-                    .Select(f => new TextListItem(f));
-
                 if (AssociatedObject.ItemsSource is not ObservableCollection<TextListItem> list)
                 {
                     return;
                 }
 
-                foreach (var fileListItem in allowedFiles)
+                foreach (var file in files)
                 {
-                    list.Add(fileListItem);
+                    if (string.IsNullOrWhiteSpace(file))
+                    {
+                        continue;
+                    }
+
+                    string text;
+                    try
+                    {
+                        text = System.IO.File.ReadAllText(file);
+                    }
+                    catch (Exception exception)
+                    {
+                        AppLogger.Error($"{file} の読み込みに失敗したため、スキップします。", exception);
+                        continue;
+                    }
+
+                    list.Add(new TextListItem(text)
+                    {
+                        IsCodeBlock = true,
+                        Info = file,
+                    });
                 }
 
                 e.Handled = true;
