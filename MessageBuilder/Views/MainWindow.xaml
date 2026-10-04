@@ -68,6 +68,32 @@
                         BorderBrush="#3E3E42"
                         BorderThickness="1"
                         CornerRadius="6">
+
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <!-- 枠線色をアクセントカラーから元の色へと戻す (0.4秒) -->
+                                        <ColorAnimation
+                                            Storyboard.TargetName="CardRoot"
+                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                            From="#007ACC"
+                                            To="#3E3E42"
+                                            Duration="0:0:0.4" />
+
+                                        <!-- 背景色をわずかに明滅させる -->
+                                        <ColorAnimation
+                                            Storyboard.TargetName="HeaderBar"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            From="#3E3E42"
+                                            To="#2D2D30"
+                                            Duration="0:0:0.4" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <!-- ▲ ここまで ▲ -->
+
                         <Grid>
                             <Grid.RowDefinitions>
                                 <!-- ① 上部操作・メタ情報ヘッダー -->
