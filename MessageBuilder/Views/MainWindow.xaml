@@ -39,267 +39,274 @@
             Grid.Column="0"
             Grid.ColumnSpan="2" />
 
+
+
         <!-- メインコンテンツ -->
-        <ItemsControl
+        <ScrollViewer
             Grid.Row="1"
             Grid.Column="1"
-            AllowDrop="True"
-            Background="Transparent"
-            ItemsSource="{Binding TextListViewModel.TextListItems}">
-            <b:Interaction.Behaviors>
-                <behaviors:DropFileBehavior />
-            </b:Interaction.Behaviors>
-            <ItemsControl.Resources>
-                <Style TargetType="TextBox">
-                    <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
-                    <Setter Property="Foreground" Value="WhiteSmoke" />
-                    <Setter Property="Margin" Value="2" />
-                    <Setter Property="Padding" Value="3" />
-                    <Setter Property="CaretBrush" Value="LightSkyBlue" />
-                </Style>
-            </ItemsControl.Resources>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type viewModels:TextListItem}">
-                    <!-- カード外枠 -->
-                    <Border
-                        x:Name="CardRoot"
-                        Margin="2,4"
-                        Background="#252526"
-                        BorderBrush="#3E3E42"
-                        BorderThickness="1"
-                        CornerRadius="6">
+            materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
+            Style="{StaticResource MahApps.Styles.ScrollViewer}">
 
-                        <Border.Triggers>
-                            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <!-- 枠線色をアクセントカラーから元の色へと戻す (0.4秒) -->
-                                        <ColorAnimation
-                                            Storyboard.TargetName="CardRoot"
-                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                            From="#007ACC"
-                                            To="#3E3E42"
-                                            Duration="0:0:0.4" />
+            <ItemsControl
+                AllowDrop="True"
+                Background="Transparent"
+                ItemsSource="{Binding TextListViewModel.TextListItems}">
+                <b:Interaction.Behaviors>
+                    <behaviors:DropFileBehavior />
+                </b:Interaction.Behaviors>
+                <ItemsControl.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+                        <Setter Property="Foreground" Value="WhiteSmoke" />
+                        <Setter Property="Margin" Value="2" />
+                        <Setter Property="Padding" Value="3" />
+                        <Setter Property="CaretBrush" Value="LightSkyBlue" />
+                    </Style>
+                </ItemsControl.Resources>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:TextListItem}">
+                        <!-- カード外枠 -->
+                        <Border
+                            x:Name="CardRoot"
+                            Margin="2,4"
+                            Background="#252526"
+                            BorderBrush="#3E3E42"
+                            BorderThickness="1"
+                            CornerRadius="6">
 
-                                        <!-- 背景色をわずかに明滅させる -->
-                                        <ColorAnimation
-                                            Storyboard.TargetName="HeaderBar"
-                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                            From="#3E3E42"
-                                            To="#2D2D30"
-                                            Duration="0:0:0.4" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Border.Triggers>
-                        <!-- ▲ ここまで ▲ -->
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <!-- 枠線色をアクセントカラーから元の色へと戻す (0.4秒) -->
+                                            <ColorAnimation
+                                                Storyboard.TargetName="CardRoot"
+                                                Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                From="#007ACC"
+                                                To="#3E3E42"
+                                                Duration="0:0:0.4" />
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <!-- ① 上部操作・メタ情報ヘッダー -->
-                                <RowDefinition Height="Auto" />
-                                <!-- ② テキストエディタ部 -->
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+                                            <!-- 背景色をわずかに明滅させる -->
+                                            <ColorAnimation
+                                                Storyboard.TargetName="HeaderBar"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                From="#3E3E42"
+                                                To="#2D2D30"
+                                                Duration="0:0:0.4" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
+                            <!-- ▲ ここまで ▲ -->
 
-                            <!-- ① ヘッダーツールバー -->
-                            <Border
-                                x:Name="HeaderBar"
-                                Grid.Row="0"
-                                Padding="6,3"
-                                Background="#2D2D30"
-                                CornerRadius="5,5,0,0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <!-- 左側: チェックボックス ＋ 言語/パス -->
-                                        <ColumnDefinition Width="*" />
-                                        <!-- 右側: アクションボタン（上下・削除） -->
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <!-- ① 上部操作・メタ情報ヘッダー -->
+                                    <RowDefinition Height="Auto" />
+                                    <!-- ② テキストエディタ部 -->
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
-                                    <!-- 左側メタ情報エリア -->
-                                    <StackPanel
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                        <CheckBox
-                                            Margin="0,0,8,0"
+                                <!-- ① ヘッダーツールバー -->
+                                <Border
+                                    x:Name="HeaderBar"
+                                    Grid.Row="0"
+                                    Padding="6,3"
+                                    Background="#2D2D30"
+                                    CornerRadius="5,5,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <!-- 左側: チェックボックス ＋ 言語/パス -->
+                                            <ColumnDefinition Width="*" />
+                                            <!-- 右側: アクションボタン（上下・削除） -->
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- 左側メタ情報エリア -->
+                                        <StackPanel
+                                            Grid.Column="0"
                                             VerticalAlignment="Center"
-                                            IsChecked="{Binding IsIncluded}"
-                                            ToolTip="有効/無効の切り替え" />
+                                            Orientation="Horizontal">
+                                            <CheckBox
+                                                Margin="0,0,8,0"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding IsIncluded}"
+                                                ToolTip="有効/無効の切り替え" />
 
-                                        <!-- 言語/パス指定 (Info) 欄 -->
-                                        <Border
-                                            x:Name="InfoBadge"
-                                            Padding="5,1"
+                                            <!-- 言語/パス指定 (Info) 欄 -->
+                                            <Border
+                                                x:Name="InfoBadge"
+                                                Padding="5,1"
+                                                VerticalAlignment="Center"
+                                                Background="#1E1E1E"
+                                                BorderBrush="#3E3E42"
+                                                BorderThickness="1"
+                                                CornerRadius="3">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock
+                                                        VerticalAlignment="Center"
+                                                        FontSize="11"
+                                                        Foreground="LightSteelBlue"
+                                                        Text="lang: " />
+                                                    <TextBox
+                                                        MinWidth="60"
+                                                        MaxWidth="350"
+                                                        Padding="0"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        FontFamily="Cascadia Code, Consolas, Courier New"
+                                                        FontSize="12"
+                                                        Foreground="LightSteelBlue"
+                                                        Text="{Binding Info, UpdateSourceTrigger=PropertyChanged}"
+                                                        ToolTip="{Binding Info}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+
+                                        <!-- 右側アクションボタンエリア -->
+                                        <StackPanel
+                                            Grid.Column="1"
                                             VerticalAlignment="Center"
-                                            Background="#1E1E1E"
-                                            BorderBrush="#3E3E42"
-                                            BorderThickness="1"
-                                            CornerRadius="3">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock
-                                                    VerticalAlignment="Center"
-                                                    FontSize="11"
-                                                    Foreground="LightSteelBlue"
-                                                    Text="lang: " />
-                                                <TextBox
-                                                    MinWidth="60"
-                                                    MaxWidth="350"
-                                                    Padding="0"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    FontFamily="Cascadia Code, Consolas, Courier New"
-                                                    FontSize="12"
-                                                    Foreground="LightSteelBlue"
-                                                    Text="{Binding Info, UpdateSourceTrigger=PropertyChanged}"
-                                                    ToolTip="{Binding Info}" />
-                                            </StackPanel>
-                                        </Border>
-                                    </StackPanel>
+                                            Orientation="Horizontal">
+                                            <!-- 上へ移動 -->
+                                            <Button
+                                                Width="26"
+                                                Height="24"
+                                                Margin="1,0"
+                                                Padding="0"
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveUpItemCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="上へ移動">
+                                                <materialDesign:PackIcon
+                                                    Width="16"
+                                                    Height="16"
+                                                    Foreground="LightGray"
+                                                    Kind="ArrowUp" />
+                                            </Button>
 
-                                    <!-- 右側アクションボタンエリア -->
-                                    <StackPanel
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                        <!-- 上へ移動 -->
-                                        <Button
-                                            Width="26"
-                                            Height="24"
-                                            Margin="1,0"
-                                            Padding="0"
-                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveUpItemCommand}"
-                                            CommandParameter="{Binding}"
-                                            Style="{StaticResource MaterialDesignFlatButton}"
-                                            ToolTip="上へ移動">
-                                            <materialDesign:PackIcon
-                                                Width="16"
-                                                Height="16"
-                                                Foreground="LightGray"
-                                                Kind="ArrowUp" />
-                                        </Button>
+                                            <!-- 下へ移動 -->
+                                            <Button
+                                                Width="26"
+                                                Height="24"
+                                                Margin="1,0"
+                                                Padding="0"
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveDownItemCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="下へ移動">
+                                                <materialDesign:PackIcon
+                                                    Width="16"
+                                                    Height="16"
+                                                    Foreground="LightGray"
+                                                    Kind="ArrowDown" />
+                                            </Button>
 
-                                        <!-- 下へ移動 -->
-                                        <Button
-                                            Width="26"
-                                            Height="24"
-                                            Margin="1,0"
-                                            Padding="0"
-                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveDownItemCommand}"
-                                            CommandParameter="{Binding}"
-                                            Style="{StaticResource MaterialDesignFlatButton}"
-                                            ToolTip="下へ移動">
-                                            <materialDesign:PackIcon
-                                                Width="16"
-                                                Height="16"
-                                                Foreground="LightGray"
-                                                Kind="ArrowDown" />
-                                        </Button>
+                                            <!-- 区切り線 -->
+                                            <Border
+                                                Width="1"
+                                                Height="14"
+                                                Margin="4,0"
+                                                Background="#3E3E42" />
 
-                                        <!-- 区切り線 -->
-                                        <Border
-                                            Width="1"
-                                            Height="14"
-                                            Margin="4,0"
-                                            Background="#3E3E42" />
+                                            <!-- 削除 -->
+                                            <Button
+                                                Width="26"
+                                                Height="24"
+                                                Margin="1,0"
+                                                Padding="0"
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.DeleteTextItemCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="削除">
+                                                <materialDesign:PackIcon
+                                                    Width="16"
+                                                    Height="16"
+                                                    Foreground="#FF6B6B"
+                                                    Kind="TrashCanOutline" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
 
-                                        <!-- 削除 -->
-                                        <Button
-                                            Width="26"
-                                            Height="24"
-                                            Margin="1,0"
-                                            Padding="0"
-                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.DeleteTextItemCommand}"
-                                            CommandParameter="{Binding}"
-                                            Style="{StaticResource MaterialDesignFlatButton}"
-                                            ToolTip="削除">
-                                            <materialDesign:PackIcon
-                                                Width="16"
-                                                Height="16"
-                                                Foreground="#FF6B6B"
-                                                Kind="TrashCanOutline" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
+                                <!-- ② テキスト本体のコンテナ -->
+                                <Border
+                                    x:Name="TextContainer"
+                                    Grid.Row="1"
+                                    Padding="4"
+                                    Background="#222222"
+                                    BorderBrush="#444444"
+                                    BorderThickness="0,1,0,0"
+                                    CornerRadius="0,0,5,5">
+                                    <TextBox
+                                        x:Name="ContentTextBox"
+                                        AcceptsReturn="True"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                        TextWrapping="Wrap"
+                                        VerticalScrollBarVisibility="Auto" />
+                                </Border>
+                            </Grid>
+                        </Border>
 
-                            <!-- ② テキスト本体のコンテナ -->
-                            <Border
-                                x:Name="TextContainer"
-                                Grid.Row="1"
-                                Padding="4"
-                                Background="#222222"
-                                BorderBrush="#444444"
-                                BorderThickness="0,1,0,0"
-                                CornerRadius="0,0,5,5">
-                                <TextBox
-                                    x:Name="ContentTextBox"
-                                    AcceptsReturn="True"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-                                    TextWrapping="Wrap"
-                                    VerticalScrollBarVisibility="Auto" />
-                            </Border>
-                        </Grid>
-                    </Border>
+                        <!-- トリガーによるスタイル切り替え -->
+                        <DataTemplate.Triggers>
+                            <!-- ============================================== -->
+                            <!-- 有効/無効 (IsIncluded = False) の場合 -->
+                            <!-- ============================================== -->
+                            <DataTrigger Binding="{Binding IsIncluded}" Value="False">
+                                <Setter TargetName="CardRoot" Property="Opacity" Value="0.4" />
+                            </DataTrigger>
 
-                    <!-- トリガーによるスタイル切り替え -->
-                    <DataTemplate.Triggers>
-                        <!-- ============================================== -->
-                        <!-- 有効/無効 (IsIncluded = False) の場合 -->
-                        <!-- ============================================== -->
-                        <DataTrigger Binding="{Binding IsIncluded}" Value="False">
-                            <Setter TargetName="CardRoot" Property="Opacity" Value="0.4" />
-                        </DataTrigger>
+                            <!-- ============================================== -->
+                            <!-- 通常テキストの場合 (IsCodeBlock = False) -->
+                            <!-- ============================================== -->
+                            <DataTrigger Binding="{Binding IsCodeBlock}" Value="False">
+                                <!-- Info欄は非表示 -->
+                                <Setter TargetName="InfoBadge" Property="Visibility" Value="Collapsed" />
+                                <!-- 枠線や背景をプレーンにする -->
+                                <Setter TargetName="TextContainer" Property="Background" Value="#222222" />
+                                <Setter TargetName="TextContainer" Property="BorderBrush" Value="#333333" />
+                                <!-- 標準フォント & Tabはフォーカス移動に使用 -->
+                                <Setter TargetName="ContentTextBox" Property="AcceptsTab" Value="False" />
+                                <Setter TargetName="ContentTextBox" Property="FontFamily" Value="Yu Gothic UI, Segoe UI" />
+                                <Setter TargetName="ContentTextBox" Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+                            </DataTrigger>
 
-                        <!-- ============================================== -->
-                        <!-- 通常テキストの場合 (IsCodeBlock = False) -->
-                        <!-- ============================================== -->
-                        <DataTrigger Binding="{Binding IsCodeBlock}" Value="False">
-                            <!-- Info欄は非表示 -->
-                            <Setter TargetName="InfoBadge" Property="Visibility" Value="Collapsed" />
-                            <!-- 枠線や背景をプレーンにする -->
-                            <Setter TargetName="TextContainer" Property="Background" Value="#222222" />
-                            <Setter TargetName="TextContainer" Property="BorderBrush" Value="#333333" />
-                            <!-- 標準フォント & Tabはフォーカス移動に使用 -->
-                            <Setter TargetName="ContentTextBox" Property="AcceptsTab" Value="False" />
-                            <Setter TargetName="ContentTextBox" Property="FontFamily" Value="Yu Gothic UI, Segoe UI" />
-                            <Setter TargetName="ContentTextBox" Property="FontSize" Value="{StaticResource GlobalFontSize}" />
-                        </DataTrigger>
+                            <!-- ============================================== -->
+                            <!-- コードブロックの場合 (IsCodeBlock = True) -->
+                            <!-- ============================================== -->
+                            <DataTrigger Binding="{Binding IsCodeBlock}" Value="True">
+                                <Setter TargetName="InfoBadge" Property="Visibility" Value="Visible" />
+                                <!-- 背景を少し明るめのエディタトーンにし、境界線を強調 -->
+                                <Setter TargetName="TextContainer" Property="Background" Value="#1E1E1E" />
+                                <Setter TargetName="TextContainer" Property="BorderBrush" Value="#3E3E42" />
+                                <!-- 等幅フォント & Tab入力を許可 -->
+                                <Setter TargetName="ContentTextBox" Property="AcceptsTab" Value="True" />
+                                <Setter TargetName="ContentTextBox" Property="FontFamily" Value="Cascadia Code, Consolas, Courier New" />
+                                <Setter TargetName="ContentTextBox" Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+                            </DataTrigger>
 
-                        <!-- ============================================== -->
-                        <!-- コードブロックの場合 (IsCodeBlock = True) -->
-                        <!-- ============================================== -->
-                        <DataTrigger Binding="{Binding IsCodeBlock}" Value="True">
-                            <Setter TargetName="InfoBadge" Property="Visibility" Value="Visible" />
-                            <!-- 背景を少し明るめのエディタトーンにし、境界線を強調 -->
-                            <Setter TargetName="TextContainer" Property="Background" Value="#1E1E1E" />
-                            <Setter TargetName="TextContainer" Property="BorderBrush" Value="#3E3E42" />
-                            <!-- 等幅フォント & Tab入力を許可 -->
-                            <Setter TargetName="ContentTextBox" Property="AcceptsTab" Value="True" />
-                            <Setter TargetName="ContentTextBox" Property="FontFamily" Value="Cascadia Code, Consolas, Courier New" />
-                            <Setter TargetName="ContentTextBox" Property="FontSize" Value="{StaticResource GlobalFontSize}" />
-                        </DataTrigger>
+                            <!-- ============================================== -->
+                            <!-- フォーカス時の枠線色変更（コードブロック時） -->
+                            <!-- ============================================== -->
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsCodeBlock}" Value="True" />
+                                    <Condition Binding="{Binding ElementName=TextContainer, Path=IsKeyboardFocusWithin}" Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                <!-- フォーカス時はカード全体の枠線とテキスト境界線をアクセントカラーに -->
+                                <Setter TargetName="CardRoot" Property="BorderBrush" Value="#0078D7" />
+                                <Setter TargetName="TextContainer" Property="BorderBrush" Value="#0078D7" />
+                            </MultiDataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-                        <!-- ============================================== -->
-                        <!-- フォーカス時の枠線色変更（コードブロック時） -->
-                        <!-- ============================================== -->
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsCodeBlock}" Value="True" />
-                                <Condition Binding="{Binding ElementName=TextContainer, Path=IsKeyboardFocusWithin}" Value="True" />
-                            </MultiDataTrigger.Conditions>
-                            <!-- フォーカス時はカード全体の枠線とテキスト境界線をアクセントカラーに -->
-                            <Setter TargetName="CardRoot" Property="BorderBrush" Value="#0078D7" />
-                            <Setter TargetName="TextContainer" Property="BorderBrush" Value="#0078D7" />
-                        </MultiDataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
+        </ScrollViewer>
         <!-- フッター（追加ボタン等） -->
         <Border
             Grid.Row="2"
