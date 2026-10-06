@@ -6,6 +6,7 @@
         private string info = string.Empty;
         private bool isCodeBlock;
         private bool isIncluded = true;
+        private string previousInfo = string.Empty;
 
         public TextListItem(string text)
         {
@@ -32,5 +33,25 @@
         public bool IsCodeBlock { get => isCodeBlock; set => SetProperty(ref isCodeBlock, value); }
 
         public bool IsIncluded { get => isIncluded; set => SetProperty(ref isIncluded, value); }
+
+        public void ToggleCodeBlock()
+        {
+            if (IsCodeBlock)
+            {
+                // 通常のテキストに Info は不要なので復元できる状態で退避。
+                previousInfo = Info;
+                Info = string.Empty;
+                IsCodeBlock = false;
+            }
+            else
+            {
+                IsCodeBlock = true;
+
+                if (!string.IsNullOrEmpty(previousInfo))
+                {
+                    Info = previousInfo;
+                }
+            }
+        }
     }
 }

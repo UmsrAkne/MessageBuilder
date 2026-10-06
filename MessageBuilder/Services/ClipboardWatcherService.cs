@@ -1,24 +1,13 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using MessageBuilder.Utils;
 
 namespace MessageBuilder.Services
 {
     public sealed class ClipboardWatcherService : IClipboardWatchService, IDisposable
     {
         private const int WM_CLIPBOARDUPDATE = 0x031D;
-
-        private static class NativeMethods
-        {
-            [DllImport("user32.dll", SetLastError = true)]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            internal static extern bool AddClipboardFormatListener(IntPtr hwnd);
-
-            [DllImport("user32.dll", SetLastError = true)]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            internal static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
-        }
-
         private HwndSource? hwndSource;
         private IntPtr windowHandle;
         private bool isListening;
@@ -103,28 +92,46 @@ namespace MessageBuilder.Services
 
         private async void OnClipboardUpdate()
         {
-            // 他のプロセスがクリップボードを開いていると取得に失敗する場合があるため、数回リトライする
-            string? text = null;
-            for (var i = 0; i < 5; i++)
+            try
             {
-                try
+                // 他のプロセスがクリップボードを開いていると取得に失敗する場合があるため、数回リトライする
+                string? text = null;
+                for (var i = 0; i < 5; i++)
                 {
-                    if (Clipboard.ContainsText())
+                    try
                     {
-                        text = Clipboard.GetText();
-                        break;
+                        if (Clipboard.ContainsText())
+                        {
+                            text = Clipboard.GetText();
+                            break;
+                        }
+                    }
+                    catch (COMException)
+                    {
+                        await Task.Delay(50);
                     }
                 }
-                catch (COMException)
+
+                if (!string.IsNullOrEmpty(text))
                 {
-                    await Task.Delay(50);
+                    TextCopied?.Invoke(this, text);
                 }
             }
-
-            if (!string.IsNullOrEmpty(text))
+            catch (Exception ex)
             {
-                TextCopied?.Invoke(this, text);
+                AppLogger.Error("クリップボードの更新処理中にエラーが発生しました。", ex);
             }
+        }
+
+        private static class NativeMethods
+        {
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            internal static extern bool AddClipboardFormatListener(IntPtr hwnd);
+
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            internal static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
         }
     }
 }

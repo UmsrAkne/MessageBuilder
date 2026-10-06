@@ -8,19 +8,24 @@ namespace MessageBuilder.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private string title = "MessageBuilder";
+        private readonly IClipboardWatchService clipboardWatchService;
+        private bool isClipboardWatching;
 
         public MainWindowViewModel()
         {
             TextListViewModel = new TextListViewModel(new ToastService());
-            AppLogger.Info("MainWindowViewModel created");
+            clipboardWatchService = new ClipboardWatcherService();
+            AppLogger.Info("MainWindowViewModel created (default)");
             SetDummyData();
         }
 
-        public MainWindowViewModel(TextListViewModel textListViewModel, ToastService toastService)
+        public MainWindowViewModel(TextListViewModel textListViewModel, ToastService toastService, IClipboardWatchService clipboardWatchService)
         {
             ToastService = toastService;
             TextListViewModel = textListViewModel;
-            AppLogger.Info("MainWindowViewModel created");
+            AppLogger.Info("MainWindowViewModel created (DI)");
+            this.clipboardWatchService = clipboardWatchService;
+            this.clipboardWatchService.TextCopied += OnTextCopied;
             SetDummyData();
         }
 
@@ -29,6 +34,23 @@ namespace MessageBuilder.ViewModels
         public ToastService ToastService { get; set; } = new ();
 
         public TextListViewModel TextListViewModel { get; set; }
+
+        public bool IsClipboardWatching
+        {
+            get => isClipboardWatching;
+            set => SetProperty(ref isClipboardWatching, value);
+        }
+
+        private void OnTextCopied(object? sender, string text)
+        {
+            if (!IsClipboardWatching)
+            {
+                return;
+            }
+
+            var t = text.Trim();
+            TextListViewModel.TextListItems.Add(new TextListItem(t));
+        }
 
         [Conditional("DEBUG")]
         private void SetDummyData()

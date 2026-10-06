@@ -13,6 +13,7 @@ public partial class App
     {
         var toastService = new ToastService();
         containerRegistry.RegisterInstance(toastService);
+        containerRegistry.RegisterSingleton<IClipboardWatchService, ClipboardWatcherService>();
     }
 
     protected override Window CreateShell()
