@@ -343,6 +343,15 @@
                     DockPanel.Dock="Right"
                     FontSize="16"
                     FontWeight="Bold" />
+
+                <ToggleButton
+                    Margin="5,0"
+                    Padding="20,6"
+                    Content="Watch Clipboard"
+                    DockPanel.Dock="Right"
+                    FontSize="16"
+                    IsChecked="{Binding IsClipboardWatching}" />
+
             </DockPanel>
         </Border>
 
