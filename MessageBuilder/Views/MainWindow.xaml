@@ -169,6 +169,36 @@
                                             Grid.Column="1"
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal">
+
+                                            <!-- コードブロック / テキスト の切り替えボタン -->
+                                            <Button
+                                                Width="26"
+                                                Height="24"
+                                                Margin="1,0"
+                                                Padding="0"
+                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.ToggleCodeblockCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="Code / Plain text">
+                                                <materialDesign:PackIcon Width="16" Height="16">
+                                                    <materialDesign:PackIcon.Style>
+                                                        <Style TargetType="materialDesign:PackIcon">
+                                                            <!-- 通常テキスト時のスタイル -->
+                                                            <Setter Property="Kind" Value="CodeBraces" />
+                                                            <Setter Property="Foreground" Value="LightGray" />
+                                                            <Setter Property="Opacity" Value="0.3" />
+                                                            <Style.Triggers>
+                                                                <!-- コードブロック時のスタイル（ハイライト） -->
+                                                                <DataTrigger Binding="{Binding IsCodeBlock}" Value="True">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+                                                                    <Setter Property="Opacity" Value="1.0" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </materialDesign:PackIcon.Style>
+                                                </materialDesign:PackIcon>
+                                            </Button>
+
                                             <!-- 上へ移動 -->
                                             <Button
                                                 Width="26"

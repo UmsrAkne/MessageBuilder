@@ -38,6 +38,11 @@ namespace MessageBuilder.ViewModels
             MoveItem(param, 1);
         });
 
+        public DelegateCommand<TextListItem> ToggleCodeblockCommand => new ((item) =>
+        {
+            item.ToggleCodeBlock();
+        });
+
         public AsyncRelayCommand CopyToClipboardAsyncCommand =>
             copyToClipboardCommand = new AsyncRelayCommand(async () =>
             {
