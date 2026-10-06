@@ -8,19 +8,22 @@ namespace MessageBuilder.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private string title = "MessageBuilder";
+        private readonly IClipboardWatchService clipboardWatchService;
 
         public MainWindowViewModel()
         {
             TextListViewModel = new TextListViewModel(new ToastService());
-            AppLogger.Info("MainWindowViewModel created");
+            clipboardWatchService = new ClipboardWatcherService();
+            AppLogger.Info("MainWindowViewModel created (default)");
             SetDummyData();
         }
 
-        public MainWindowViewModel(TextListViewModel textListViewModel, ToastService toastService)
+        public MainWindowViewModel(TextListViewModel textListViewModel, ToastService toastService, IClipboardWatchService clipboardWatchService)
         {
             ToastService = toastService;
             TextListViewModel = textListViewModel;
-            AppLogger.Info("MainWindowViewModel created");
+            AppLogger.Info("MainWindowViewModel created (DI)");
+            this.clipboardWatchService = clipboardWatchService;
             SetDummyData();
         }
 
