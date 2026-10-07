@@ -59,14 +59,14 @@
             materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
             Style="{StaticResource MahApps.Styles.ScrollViewer}">
 
-            <ItemsControl
+            <ListBox
                 AllowDrop="True"
                 Background="Transparent"
                 ItemsSource="{Binding TextListViewModel.TextListItems}">
                 <b:Interaction.Behaviors>
                     <behaviors:DropFileBehavior />
                 </b:Interaction.Behaviors>
-                <ItemsControl.Resources>
+                <ListBox.Resources>
                     <Style TargetType="TextBox">
                         <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
                         <Setter Property="Foreground" Value="WhiteSmoke" />
@@ -74,8 +74,8 @@
                         <Setter Property="Padding" Value="3" />
                         <Setter Property="CaretBrush" Value="LightSkyBlue" />
                     </Style>
-                </ItemsControl.Resources>
-                <ItemsControl.ItemTemplate>
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type viewModels:TextListItem}">
                         <!-- カード外枠 -->
                         <Border
@@ -344,8 +344,8 @@
                             </MultiDataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
         </ScrollViewer>
         <!-- フッター（追加ボタン等） -->
