@@ -20,6 +20,17 @@
             Key="C"
             Command="{Binding TextListViewModel.CopyToClipboardAsyncCommand}"
             Modifiers="Control+Shift" />
+
+        <KeyBinding
+            Key="N"
+            Command="{Binding TextListViewModel.AddTextItemCommand}"
+            Modifiers="Control" />
+
+        <KeyBinding
+            Key="S"
+            Command="{Binding TextListViewModel.ClearTextListItemsCommand}"
+            Modifiers="Control+Shift" />
+
     </Window.InputBindings>
     <Grid Margin="4">
         <Grid.RowDefinitions>
@@ -48,14 +59,14 @@
             materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
             Style="{StaticResource MahApps.Styles.ScrollViewer}">
 
-            <ItemsControl
+            <ListBox
                 AllowDrop="True"
                 Background="Transparent"
                 ItemsSource="{Binding TextListViewModel.TextListItems}">
                 <b:Interaction.Behaviors>
                     <behaviors:DropFileBehavior />
                 </b:Interaction.Behaviors>
-                <ItemsControl.Resources>
+                <ListBox.Resources>
                     <Style TargetType="TextBox">
                         <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
                         <Setter Property="Foreground" Value="WhiteSmoke" />
@@ -63,8 +74,8 @@
                         <Setter Property="Padding" Value="3" />
                         <Setter Property="CaretBrush" Value="LightSkyBlue" />
                     </Style>
-                </ItemsControl.Resources>
-                <ItemsControl.ItemTemplate>
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type viewModels:TextListItem}">
                         <!-- カード外枠 -->
                         <Border
@@ -333,8 +344,8 @@
                             </MultiDataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
         </ScrollViewer>
         <!-- フッター（追加ボタン等） -->
@@ -347,20 +358,23 @@
                 <!-- 危険な操作は左端へ（目立たせすぎず、誤爆しにくい位置） -->
                 <Button
                     Padding="12,6"
+                    mah:ControlsHelper.ContentCharacterCasing="Normal"
                     Background="Transparent"
                     BorderBrush="IndianRed"
                     BorderThickness="1"
                     Command="{Binding TextListViewModel.ClearTextListItemsCommand}"
-                    Content="Clear all"
+                    Content="Clear all ( Ctrl + Shift + S )"
                     DockPanel.Dock="Left"
-                    FontSize="14"
+                    FontSize="16"
+                    FontWeight="Bold"
                     Foreground="IndianRed" />
 
                 <!-- 主操作は右端へ -->
                 <Button
                     Padding="20,6"
+                    mah:ControlsHelper.ContentCharacterCasing="Normal"
                     Command="{Binding TextListViewModel.AddTextItemCommand}"
-                    Content="Add"
+                    Content="Add ( Ctrl + N )"
                     DockPanel.Dock="Right"
                     FontSize="16"
                     FontWeight="Bold" />
