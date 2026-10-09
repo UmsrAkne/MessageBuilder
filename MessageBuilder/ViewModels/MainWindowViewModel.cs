@@ -64,6 +64,7 @@ namespace MessageBuilder.ViewModels
 
             TextListViewModel.TextListItems.Add(new TextListItem("Dummy Text 4444") { Info = "lang info4", IsCodeBlock = true, IsIncluded = false, });
             TextListViewModel.TextListItems.Add(new TextListItem("Dummy Text 5555") { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
+            TextListViewModel.TextListItems.Add(new TextListItem(new string('a', 200)) { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
         }
     }
 }
