@@ -7,6 +7,7 @@
         private bool isCodeBlock;
         private bool isIncluded = true;
         private string previousInfo = string.Empty;
+        private bool isSelected;
 
         public TextListItem(string text)
         {
@@ -33,6 +34,8 @@
         public bool IsCodeBlock { get => isCodeBlock; set => SetProperty(ref isCodeBlock, value); }
 
         public bool IsIncluded { get => isIncluded; set => SetProperty(ref isIncluded, value); }
+
+        public bool IsSelected { get => isSelected; set => SetProperty(ref isSelected, value); }
 
         public void ToggleCodeBlock()
         {
