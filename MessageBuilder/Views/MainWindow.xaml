@@ -31,6 +31,21 @@
             Command="{Binding TextListViewModel.ClearTextListItemsCommand}"
             Modifiers="Control+Shift" />
 
+        <KeyBinding
+            Key="B"
+            Command="{Binding TextListViewModel.SetCodeBlockCommand}"
+            Modifiers="Control" />
+
+        <KeyBinding
+            Key="U"
+            Command="{Binding TextListViewModel.MoveUpItemCommand}"
+            Modifiers="Control+Shift" />
+
+        <KeyBinding
+            Key="D"
+            Command="{Binding TextListViewModel.MoveDownItemCommand}"
+            Modifiers="Control+Shift" />
+
     </Window.InputBindings>
     <Grid Margin="4">
         <Grid.RowDefinitions>
@@ -59,7 +74,8 @@
             AllowDrop="True"
             Background="Transparent"
             ItemsSource="{Binding TextListViewModel.TextListItems}"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            SelectedItem="{Binding TextListViewModel.SelectedItem}">
             <b:Interaction.Behaviors>
                 <behaviors:DropFileBehavior />
             </b:Interaction.Behaviors>
@@ -308,7 +324,7 @@
                                             Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveUpItemCommand}"
                                             CommandParameter="{Binding}"
                                             Style="{StaticResource MaterialDesignFlatButton}"
-                                            ToolTip="上へ移動">
+                                            ToolTip="Move up ( Ctrl + Shift + U )">
                                             <materialDesign:PackIcon
                                                 Width="16"
                                                 Height="16"
@@ -325,7 +341,7 @@
                                             Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveDownItemCommand}"
                                             CommandParameter="{Binding}"
                                             Style="{StaticResource MaterialDesignFlatButton}"
-                                            ToolTip="下へ移動">
+                                            ToolTip="Move down ( Ctrl + Shift + D )">
                                             <materialDesign:PackIcon
                                                 Width="16"
                                                 Height="16"

@@ -5,16 +5,19 @@ using MessageBuilder.Services;
 
 namespace MessageBuilder.ViewModels
 {
-    public class TextListViewModel
+    public class TextListViewModel : BindableBase
     {
         private PromptBuilder promptBuilder = new ();
         private readonly ToastService toastService;
         private AsyncRelayCommand copyToClipboardCommand;
+        private TextListItem? selectedItem;
 
         public TextListViewModel(ToastService toastService)
         {
             this.toastService = toastService;
         }
+
+        public TextListItem? SelectedItem { get => selectedItem; set => SetProperty(ref selectedItem, value); }
 
         public ObservableCollection<TextListItem> TextListItems { get; set; } = new ();
 
@@ -28,19 +31,43 @@ namespace MessageBuilder.ViewModels
             TextListItems.Remove(item);
         });
 
-        public DelegateCommand<TextListItem> MoveUpItemCommand => new ((param) =>
+        public DelegateCommand<TextListItem?> MoveUpItemCommand => new ((param) =>
         {
-            MoveItem(param, -1);
+            var target = param ?? SelectedItem;
+            if (target == null)
+            {
+                return;
+            }
+
+            MoveItem(target, -1);
+            SelectedItem = target;
         });
 
-        public DelegateCommand<TextListItem> MoveDownItemCommand => new ((param) =>
+        public DelegateCommand<TextListItem?> MoveDownItemCommand => new ((param) =>
         {
-            MoveItem(param, 1);
+            var target = param ?? SelectedItem;
+            if (target == null)
+            {
+                return;
+            }
+
+            MoveItem(target, 1);
+            SelectedItem = target;
         });
 
         public DelegateCommand<TextListItem> ToggleCodeblockCommand => new ((item) =>
         {
             item.ToggleCodeBlock();
+        });
+
+        public DelegateCommand SetCodeBlockCommand => new (() =>
+        {
+            if (SelectedItem == null)
+            {
+                return;
+            }
+
+            SelectedItem.IsCodeBlock = true;
         });
 
         public AsyncRelayCommand CopyToClipboardAsyncCommand =>
@@ -65,8 +92,7 @@ namespace MessageBuilder.ViewModels
                 return;
             }
 
-            TextListItems.RemoveAt(index);
-            TextListItems.Insert(Math.Max(Math.Min(index + moveIndex, TextListItems.Count), 0), param);
+            TextListItems.Move(index, Math.Max(Math.Min(index + moveIndex, TextListItems.Count), 0));
         }
     }
 }
