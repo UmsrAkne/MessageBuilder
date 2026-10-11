@@ -11,6 +11,7 @@ namespace MessageBuilder.ViewModels
         private readonly ToastService toastService;
         private AsyncRelayCommand copyToClipboardCommand;
         private TextListItem? selectedItem;
+        private string tabHeader;
 
         public TextListViewModel(ToastService toastService)
         {
@@ -18,6 +19,8 @@ namespace MessageBuilder.ViewModels
         }
 
         public TextListItem? SelectedItem { get => selectedItem; set => SetProperty(ref selectedItem, value); }
+
+        public string TabHeader { get => tabHeader; set => SetProperty(ref tabHeader, value); }
 
         public ObservableCollection<TextListItem> TextListItems { get; set; } = new ();
 

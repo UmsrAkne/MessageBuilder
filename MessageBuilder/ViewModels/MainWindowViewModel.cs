@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using MessageBuilder.Services;
 using MessageBuilder.Utils;
 
@@ -9,20 +10,24 @@ namespace MessageBuilder.ViewModels
     {
         private string title = "MessageBuilder";
         private readonly IClipboardWatchService clipboardWatchService;
+        private readonly Func<TextListViewModel>? textListViewModelFactory;
         private bool isClipboardWatching;
+        private TextListViewModel? selectedTab;
 
         public MainWindowViewModel()
         {
-            TextListViewModel = new TextListViewModel(new ToastService());
+            TextListViewModels.Add(new TextListViewModel(new ToastService()));
             clipboardWatchService = new ClipboardWatcherService();
+            textListViewModelFactory = null;
             AppLogger.Info("MainWindowViewModel created (default)");
             SetDummyData();
         }
 
-        public MainWindowViewModel(TextListViewModel textListViewModel, ToastService toastService, IClipboardWatchService clipboardWatchService)
+        public MainWindowViewModel(Func<TextListViewModel> textListViewModelFactory, ToastService toastService, IClipboardWatchService clipboardWatchService)
         {
             ToastService = toastService;
-            TextListViewModel = textListViewModel;
+            this.textListViewModelFactory = textListViewModelFactory;
+            TextListViewModels.Add(textListViewModelFactory());
             AppLogger.Info("MainWindowViewModel created (DI)");
             this.clipboardWatchService = clipboardWatchService;
             this.clipboardWatchService.TextCopied += OnTextCopied;
@@ -33,7 +38,7 @@ namespace MessageBuilder.ViewModels
 
         public ToastService ToastService { get; set; } = new ();
 
-        public TextListViewModel TextListViewModel { get; set; }
+        public ObservableCollection<TextListViewModel> TextListViewModels { get; set; } = new ();
 
         public bool IsClipboardWatching
         {
@@ -41,30 +46,38 @@ namespace MessageBuilder.ViewModels
             set => SetProperty(ref isClipboardWatching, value);
         }
 
+        public TextListViewModel? SelectedTab
+        {
+            get => selectedTab;
+            set => SetProperty(ref selectedTab, value);
+        }
+
         private void OnTextCopied(object? sender, string text)
         {
-            if (!IsClipboardWatching)
+            if (!IsClipboardWatching || SelectedTab == null)
             {
                 return;
             }
 
             var t = text.Trim();
-            TextListViewModel.TextListItems.Add(new TextListItem(t));
+            SelectedTab.TextListItems.Add(new TextListItem(t));
         }
 
         [Conditional("DEBUG")]
         private void SetDummyData()
         {
-            TextListViewModel.TextListItems.Add(new TextListItem("Dummy Text 1111") { Info = "lang info1", IsCodeBlock = true, });
-            TextListViewModel.TextListItems.Add(new TextListItem("Dummy Text 2222") { Info = "lang info2", IsCodeBlock = true, });
+            var vm = TextListViewModels.First();
+            vm.TextListItems.Add(new TextListItem("Dummy Text 1111") { Info = "lang info1", IsCodeBlock = true, });
+            vm.TextListItems.Add(new TextListItem("Dummy Text 2222") { Info = "lang info2", IsCodeBlock = true, });
 
-            TextListViewModel.TextListItems.Add(new TextListItem("Dummy Text 2222") { IsCodeBlock = false, });
+            vm.TextListItems.Add(new TextListItem("Dummy Text 2222") { IsCodeBlock = false, });
 
-            TextListViewModel.TextListItems.Add(new TextListItem("Dummy Text 3333") { Info = "lang info3", IsCodeBlock = true, });
+            vm.TextListItems.Add(new TextListItem("Dummy Text 3333") { Info = "lang info3", IsCodeBlock = true, });
 
-            TextListViewModel.TextListItems.Add(new TextListItem("Dummy Text 4444") { Info = "lang info4", IsCodeBlock = true, IsIncluded = false, });
-            TextListViewModel.TextListItems.Add(new TextListItem("Dummy Text 5555") { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
-            TextListViewModel.TextListItems.Add(new TextListItem(new string('a', 200)) { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
+            vm.TextListItems.Add(new TextListItem("Dummy Text 4444") { Info = "lang info4", IsCodeBlock = true, IsIncluded = false, });
+            vm.TextListItems.Add(new TextListItem("Dummy Text 5555") { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
+            vm.TextListItems.Add(new TextListItem(new string('a', 200)) { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
+            vm.TabHeader = "Dummy Tab (default)";
         }
     }
 }
