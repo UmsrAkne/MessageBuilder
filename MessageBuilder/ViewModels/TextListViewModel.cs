@@ -22,6 +22,8 @@ namespace MessageBuilder.ViewModels
 
         public string TabHeader { get => tabHeader; set => SetProperty(ref tabHeader, value); }
 
+        public string LastCopiedText { get; private set; } = string.Empty;
+
         public ObservableCollection<TextListItem> TextListItems { get; set; } = new ();
 
         public DelegateCommand AddTextItemCommand => new DelegateCommand(() =>
@@ -77,6 +79,7 @@ namespace MessageBuilder.ViewModels
             copyToClipboardCommand = new AsyncRelayCommand(async () =>
             {
                 var result = promptBuilder.BuildPrompt([.. TextListItems,]);
+                LastCopiedText = result;
                 Clipboard.SetText(result);
 
                 await toastService.ShowToastAsync("Copied to clipboard");

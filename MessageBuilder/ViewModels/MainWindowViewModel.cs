@@ -59,6 +59,12 @@ namespace MessageBuilder.ViewModels
                 return;
             }
 
+            // ガードしないと、自分自身がクリップボードに送ったテキストにも反応する。
+            if (SelectedTab.LastCopiedText == text)
+            {
+                return;
+            }
+
             var t = text.Trim();
             SelectedTab.TextListItems.Add(new TextListItem(t));
         }
