@@ -18,32 +18,32 @@
     <Window.InputBindings>
         <KeyBinding
             Key="C"
-            Command="{Binding TextListViewModel.CopyToClipboardAsyncCommand}"
+            Command="{Binding SelectedTab.CopyToClipboardAsyncCommand}"
             Modifiers="Control+Shift" />
 
         <KeyBinding
             Key="N"
-            Command="{Binding TextListViewModel.AddTextItemCommand}"
+            Command="{Binding SelectedTab.AddTextItemCommand}"
             Modifiers="Control" />
 
         <KeyBinding
             Key="S"
-            Command="{Binding TextListViewModel.ClearTextListItemsCommand}"
+            Command="{Binding SelectedTab.ClearTextListItemsCommand}"
             Modifiers="Control+Shift" />
 
         <KeyBinding
             Key="B"
-            Command="{Binding TextListViewModel.SetCodeBlockCommand}"
+            Command="{Binding SelectedTab.SetCodeBlockCommand}"
             Modifiers="Control" />
 
         <KeyBinding
             Key="U"
-            Command="{Binding TextListViewModel.MoveUpItemCommand}"
+            Command="{Binding SelectedTab.MoveUpItemCommand}"
             Modifiers="Control+Shift" />
 
         <KeyBinding
             Key="D"
-            Command="{Binding TextListViewModel.MoveDownItemCommand}"
+            Command="{Binding SelectedTab.MoveDownItemCommand}"
             Modifiers="Control+Shift" />
 
     </Window.InputBindings>
@@ -302,7 +302,7 @@
                                                         Height="24"
                                                         Margin="1,0"
                                                         Padding="0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.ToggleCodeblockCommand}"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.ToggleCodeblockCommand}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         ToolTip="Code / Plain text">
@@ -331,7 +331,7 @@
                                                         Height="24"
                                                         Margin="1,0"
                                                         Padding="0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveUpItemCommand}"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.MoveUpItemCommand}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         ToolTip="Move up ( Ctrl + Shift + U )">
@@ -348,7 +348,7 @@
                                                         Height="24"
                                                         Margin="1,0"
                                                         Padding="0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.MoveDownItemCommand}"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.MoveDownItemCommand}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         ToolTip="Move down ( Ctrl + Shift + D )">
@@ -372,7 +372,7 @@
                                                         Height="24"
                                                         Margin="1,0"
                                                         Padding="0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.TextListViewModel.DeleteTextItemCommand}"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.DeleteTextItemCommand}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         ToolTip="削除">
@@ -480,7 +480,7 @@
                     Background="Transparent"
                     BorderBrush="IndianRed"
                     BorderThickness="1"
-                    Command="{Binding TextListViewModel.ClearTextListItemsCommand}"
+                    Command="{Binding SelectedTab.ClearTextListItemsCommand}"
                     Content="Clear all ( Ctrl + Shift + S )"
                     DockPanel.Dock="Left"
                     FontSize="16"
@@ -491,7 +491,7 @@
                 <Button
                     Padding="20,6"
                     mah:ControlsHelper.ContentCharacterCasing="Normal"
-                    Command="{Binding TextListViewModel.AddTextItemCommand}"
+                    Command="{Binding SelectedTab.AddTextItemCommand}"
                     Content="Add ( Ctrl + N )"
                     DockPanel.Dock="Right"
                     FontSize="16"
@@ -500,7 +500,7 @@
                 <Button
                     Padding="20,6"
                     mah:ControlsHelper.ContentCharacterCasing="Normal"
-                    Command="{Binding TextListViewModel.CopyToClipboardAsyncCommand}"
+                    Command="{Binding SelectedTab.CopyToClipboardAsyncCommand}"
                     Content="Copy ( Ctrl + Shift + C )"
                     DockPanel.Dock="Right"
                     FontSize="16"
