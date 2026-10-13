@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
+using MessageBuilder.Models;
 using MessageBuilder.Services;
 
 namespace MessageBuilder.ViewModels
@@ -89,6 +90,17 @@ namespace MessageBuilder.ViewModels
         {
             TextListItems.Clear();
         });
+
+        public TextListDto ExportData()
+        {
+            return new TextListDto(
+                TabHeader: TabHeader,
+                Items: TextListItems.Select(item => new TextListItemDto(
+                    Text: item.Text,
+                    Info: item.Info,
+                    IsCodeBlock: item.IsCodeBlock,
+                    IsIncluded: item.IsIncluded)).ToList());
+        }
 
         private void MoveItem(TextListItem param, int moveIndex)
         {
