@@ -28,7 +28,7 @@
 
         <KeyBinding
             Key="S"
-            Command="{Binding SelectedTab.ClearTextListItemsCommand}"
+            Command="{Binding StashCurrentTabCommand}"
             Modifiers="Control+Shift" />
 
         <KeyBinding
@@ -480,7 +480,7 @@
                     Background="Transparent"
                     BorderBrush="IndianRed"
                     BorderThickness="1"
-                    Command="{Binding SelectedTab.ClearTextListItemsCommand}"
+                    Command="{Binding SelectedTab.StashCurrentTabCommand}"
                     Content="Clear all ( Ctrl + Shift + S )"
                     DockPanel.Dock="Left"
                     FontSize="16"

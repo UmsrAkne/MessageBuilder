@@ -27,6 +27,8 @@ namespace MessageBuilder.ViewModels
 
         public ObservableCollection<TextListItem> TextListItems { get; set; } = new ();
 
+        public bool HasSaved { get; set; }
+
         public DelegateCommand AddTextItemCommand => new DelegateCommand(() =>
         {
             TextListItems.Add(new TextListItem(string.Empty) { Info = string.Empty, });
@@ -85,11 +87,6 @@ namespace MessageBuilder.ViewModels
 
                 await toastService.ShowToastAsync("Copied to clipboard");
             });
-
-        public DelegateCommand ClearTextListItemsCommand => new (() =>
-        {
-            TextListItems.Clear();
-        });
 
         public TextListDto ExportData()
         {
