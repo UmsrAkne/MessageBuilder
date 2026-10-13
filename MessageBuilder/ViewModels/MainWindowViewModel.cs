@@ -11,6 +11,7 @@ namespace MessageBuilder.ViewModels
         private string title = "MessageBuilder";
         private readonly IClipboardWatchService clipboardWatchService;
         private readonly Func<TextListViewModel>? textListViewModelFactory;
+        private readonly TextListSerializer textListSerializer;
         private bool isClipboardWatching;
         private TextListViewModel? selectedTab;
 
@@ -19,6 +20,7 @@ namespace MessageBuilder.ViewModels
             TextListViewModels.Add(new TextListViewModel(new ToastService()));
             clipboardWatchService = new ClipboardWatcherService();
             textListViewModelFactory = null;
+            textListSerializer = new TextListSerializer();
             AppLogger.Info("MainWindowViewModel created (default)");
             SetDummyData();
         }
@@ -35,6 +37,9 @@ namespace MessageBuilder.ViewModels
             AppLogger.Info("MainWindowViewModel created (DI)");
             this.clipboardWatchService = clipboardWatchService;
             this.clipboardWatchService.TextCopied += OnTextCopied;
+
+            textListSerializer = new TextListSerializer();
+
             SetDummyData();
         }
 
@@ -57,6 +62,25 @@ namespace MessageBuilder.ViewModels
             get => selectedTab;
             set => SetProperty(ref selectedTab, value);
         }
+
+        public DelegateCommand StashCurrentTabCommand => new (() =>
+        {
+            if (SelectedTab == null)
+            {
+                return;
+            }
+
+            if (!SelectedTab.HasSaved)
+            {
+                textListSerializer.Serialize(new List<TextListViewModel>() { SelectedTab, });
+                SelectedTab.HasSaved = true;
+            }
+
+            var newTab = textListViewModelFactory();
+            newTab.TabHeader = $"Tab {TextListViewModels.Count:d2}";
+            TextListViewModels.Insert(0, newTab);
+            SelectedTab = newTab;
+        });
 
         private void OnTextCopied(object? sender, string text)
         {
