@@ -27,7 +27,11 @@ namespace MessageBuilder.ViewModels
         {
             ToastService = toastService;
             this.textListViewModelFactory = textListViewModelFactory;
-            TextListViewModels.Add(textListViewModelFactory());
+            var defaultVm = textListViewModelFactory();
+            defaultVm.TabHeader = "Default";
+            TextListViewModels.Add(defaultVm);
+            SelectedTab = defaultVm;
+
             AppLogger.Info("MainWindowViewModel created (DI)");
             this.clipboardWatchService = clipboardWatchService;
             this.clipboardWatchService.TextCopied += OnTextCopied;
