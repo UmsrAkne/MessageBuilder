@@ -34,6 +34,8 @@ namespace MessageBuilder.ViewModels
             SetDummyData();
         }
 
+        public bool IsDebugMode { get; set; }
+
         public string Title { get => title; set => SetProperty(ref title, value); }
 
         public ToastService ToastService { get; set; } = new ();
@@ -84,6 +86,8 @@ namespace MessageBuilder.ViewModels
             vm.TextListItems.Add(new TextListItem("Dummy Text 5555") { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
             vm.TextListItems.Add(new TextListItem(new string('a', 200)) { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
             vm.TabHeader = "Dummy Tab (default)";
+
+            IsDebugMode = true;
         }
     }
 }
