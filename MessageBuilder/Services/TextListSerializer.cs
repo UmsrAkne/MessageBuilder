@@ -2,6 +2,7 @@
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
+using MessageBuilder.Models;
 using MessageBuilder.ViewModels;
 
 namespace MessageBuilder.Services
@@ -28,6 +29,15 @@ namespace MessageBuilder.Services
                 var json = JsonSerializer.Serialize(data, JsonOptions);
                 var path = Path.Combine(pathBase, $"text{dt}_{count++}.json");
                 File.WriteAllText(path, json);
+            }
+        }
+
+        public void DeserializeInto(string json, TextListViewModel targetViewModel)
+        {
+            var data = JsonSerializer.Deserialize<TextListDto>(json, JsonOptions);
+            if (data != null)
+            {
+                targetViewModel.ImportData(data);
             }
         }
     }

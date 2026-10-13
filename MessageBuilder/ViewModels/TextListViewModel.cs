@@ -102,6 +102,24 @@ namespace MessageBuilder.ViewModels
                     IsIncluded: item.IsIncluded)).ToList());
         }
 
+        public void ImportData(TextListDto data)
+        {
+            TabHeader = data.TabHeader;
+            TextListItems.Clear();
+
+            foreach (var itemData in data.Items)
+            {
+                var item = new TextListItem(itemData.Text)
+                {
+                    IsCodeBlock = itemData.IsCodeBlock,
+                    Info = itemData.Info,
+                    IsIncluded = itemData.IsIncluded,
+                };
+
+                TextListItems.Add(item);
+            }
+        }
+
         private void MoveItem(TextListItem param, int moveIndex)
         {
             var index = TextListItems.IndexOf(param);
