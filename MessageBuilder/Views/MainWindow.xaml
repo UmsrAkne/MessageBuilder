@@ -586,5 +586,33 @@
             </Border.Style>
 
         </Border>
+
+        <Grid
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            IsHitTestVisible="False"
+            Visibility="{Binding IsDebugMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <!-- 画面全体をほんのり赤っぽくティント。全体の色味がわずかに変化すればいいので、ごく薄めにする。 -->
+            <Rectangle Fill="#FF0000" Opacity="0.05" />
+
+            <!-- 右上にデバッグリボンをつけて強調する。 -->
+            <Border
+                Margin="0,0,-10,0"
+                Padding="16,2"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="#E51400"
+                CornerRadius="4"
+                RenderTransformOrigin="0.5,0.5">
+
+                <TextBlock
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="DEBUG" />
+            </Border>
+        </Grid>
     </Grid>
 </Window>

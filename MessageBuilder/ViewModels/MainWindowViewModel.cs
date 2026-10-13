@@ -27,12 +27,18 @@ namespace MessageBuilder.ViewModels
         {
             ToastService = toastService;
             this.textListViewModelFactory = textListViewModelFactory;
-            TextListViewModels.Add(textListViewModelFactory());
+            var defaultVm = textListViewModelFactory();
+            defaultVm.TabHeader = "Default";
+            TextListViewModels.Add(defaultVm);
+            SelectedTab = defaultVm;
+
             AppLogger.Info("MainWindowViewModel created (DI)");
             this.clipboardWatchService = clipboardWatchService;
             this.clipboardWatchService.TextCopied += OnTextCopied;
             SetDummyData();
         }
+
+        public bool IsDebugMode { get; set; }
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
@@ -84,6 +90,8 @@ namespace MessageBuilder.ViewModels
             vm.TextListItems.Add(new TextListItem("Dummy Text 5555") { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
             vm.TextListItems.Add(new TextListItem(new string('a', 200)) { Info = "lang info5", IsCodeBlock = false, IsIncluded = false, });
             vm.TabHeader = "Dummy Tab (default)";
+
+            IsDebugMode = true;
         }
     }
 }
