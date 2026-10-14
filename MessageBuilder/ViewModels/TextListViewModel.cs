@@ -29,6 +29,8 @@ namespace MessageBuilder.ViewModels
 
         public bool HasSaved { get; set; }
 
+        public string SourceFilePath { get; set; } = string.Empty;
+
         public DelegateCommand AddTextItemCommand => new DelegateCommand(() =>
         {
             TextListItems.Add(new TextListItem(string.Empty) { Info = string.Empty, });
