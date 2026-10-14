@@ -481,7 +481,7 @@
                     BorderBrush="IndianRed"
                     BorderThickness="1"
                     Command="{Binding SelectedTab.StashCurrentTabCommand}"
-                    Content="Clear all ( Ctrl + Shift + S )"
+                    Content="Stash and new tab ( Ctrl + Shift + S )"
                     DockPanel.Dock="Left"
                     FontSize="16"
                     FontWeight="Bold"
