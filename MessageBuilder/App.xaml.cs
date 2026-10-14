@@ -51,6 +51,7 @@ public partial class App
         {
             var textListVm = Container.Resolve<TextListViewModel>();
             serializer.DeserializeInto(filePath, textListVm);
+            textListVm.SourceFilePath = filePath;
             mainWindowViewModel.TextListViewModels.Add(textListVm);
         }
     }

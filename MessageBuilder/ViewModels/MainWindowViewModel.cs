@@ -72,8 +72,9 @@ namespace MessageBuilder.ViewModels
 
             if (!SelectedTab.HasSaved)
             {
-                textListSerializer.Serialize(new List<TextListViewModel>() { SelectedTab, });
+                var savedPaths = textListSerializer.Serialize(new List<TextListViewModel>() { SelectedTab, });
                 SelectedTab.HasSaved = true;
+                SelectedTab.SourceFilePath = savedPaths.First();
             }
 
             var newTab = textListViewModelFactory();

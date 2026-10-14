@@ -24,20 +24,27 @@ namespace MessageBuilder.Services
             this.baseDirectory = baseDirectory ?? Path.Combine(AppContext.BaseDirectory, "text_list");
         }
 
-        public void Serialize(IEnumerable<TextListViewModel> viewModels)
+        public IEnumerable<string> Serialize(IEnumerable<TextListViewModel> viewModels)
         {
             Directory.CreateDirectory(baseDirectory); // フォルダがなければ作る
 
             var dt = DateTime.Now.ToString("yyyyMMddHHmmss");
             var count = 1;
+            var savedPaths = new List<string>();
 
             foreach (var vm in viewModels)
             {
                 var data = vm.ExportData();
                 var json = JsonSerializer.Serialize(data, JsonOptions);
-                var path = Path.Combine(baseDirectory, $"text{dt}_{count++}.json");
+                var path = !string.IsNullOrWhiteSpace(vm.SourceFilePath)
+                        ? vm.SourceFilePath
+                        : Path.Combine(baseDirectory, $"text{dt}_{count++}.json");
+
                 File.WriteAllText(path, json);
+                savedPaths.Add(path);
             }
+
+            return savedPaths;
         }
 
         public void DeserializeInto(string filePath, TextListViewModel targetViewModel)
