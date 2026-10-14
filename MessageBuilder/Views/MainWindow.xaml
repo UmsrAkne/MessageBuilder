@@ -445,6 +445,7 @@
                                         <Setter TargetName="ContentTextBox" Property="AcceptsTab" Value="True" />
                                         <Setter TargetName="ContentTextBox" Property="FontFamily" Value="Cascadia Code, Consolas, Courier New" />
                                         <Setter TargetName="ContentTextBox" Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+                                        <Setter TargetName="ContentTextBox" Property="Foreground" Value="#88CCFF" />
                                     </DataTrigger>
 
                                     <!-- ============================================== -->
