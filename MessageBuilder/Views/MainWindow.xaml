@@ -84,6 +84,7 @@
                         AllowDrop="True"
                         Background="Transparent"
                         ItemsSource="{Binding TextListItems}"
+                        ScrollViewer.CanContentScroll="False"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         SelectedItem="{Binding SelectedItem}">
                         <b:Interaction.Behaviors>
