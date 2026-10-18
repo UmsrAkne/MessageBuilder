@@ -72,9 +72,77 @@
             ItemsSource="{Binding TextListViewModels}"
             SelectedItem="{Binding SelectedTab}">
 
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border
+                                    x:Name="headerBorder"
+                                    Margin="2,0"
+                                    Padding="4,2"
+                                    Background="#303030"
+                                    CornerRadius="4,4,0,0">
+                                    <!-- ItemTemplate の中身（テキスト等）が表示される場所 -->
+                                    <ContentPresenter
+                                        x:Name="contentPresenter"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        ContentSource="Header"
+                                        RecognizesAccessKey="True" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <!-- 選択時の背景色と文字色 -->
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="headerBorder" Property="Background" Value="RoyalBlue" />
+                                        <Setter Property="TextElement.Foreground" Value="WhiteSmoke" />
+                                    </Trigger>
+                                    <!-- 非選択時の文字色 -->
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter Property="TextElement.Foreground" Value="#777777" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.ItemContainerStyle>
+
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type viewModels:TextListViewModel}">
-                    <TextBlock FontSize="18" Text="{Binding TabHeader}" />
+                    <Border
+                        x:Name="headerBorder"
+                        Padding="4,2"
+                        BorderThickness="0"
+                        CornerRadius="6,6,0,0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <!-- 非選択時の背景色 -->
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+                                    <!-- 選択時の背景色 -->
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=IsSelected}" Value="True">
+                                        <Setter Property="Background" Value="RoyalBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <TextBlock FontSize="18" Text="{Binding TabHeader}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <!-- 非選択時の文字色 -->
+                                    <Setter Property="Foreground" Value="#777777" />
+                                    <Style.Triggers>
+                                        <!-- 選択時の文字色 -->
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=IsSelected}" Value="True">
+                                            <Setter Property="Foreground" Value="WhiteSmoke" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
                 </DataTemplate>
             </TabControl.ItemTemplate>
 
