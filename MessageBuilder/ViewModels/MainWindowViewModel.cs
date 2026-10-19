@@ -77,8 +77,7 @@ namespace MessageBuilder.ViewModels
                 SelectedTab.SourceFilePath = savedPaths.First();
             }
 
-            var newTab = textListViewModelFactory();
-            newTab.TabHeader = $"Tab {TextListViewModels.Count:d2}";
+            var newTab = CreateNewTab($"Tab {TextListViewModels.Count:d2}");
             TextListViewModels.Insert(0, newTab);
             SelectedTab = newTab;
         });
@@ -98,6 +97,17 @@ namespace MessageBuilder.ViewModels
 
             var t = text.Trim();
             SelectedTab.TextListItems.Add(new TextListItem(t));
+        }
+
+        private TextListViewModel CreateNewTab(string tabHeader)
+        {
+            var newVm = textListViewModelFactory();
+            newVm.TabHeader = tabHeader;
+
+            newVm.TextListItems.Add(new TextListItem(string.Empty) { });
+            newVm.TextListItems.Add(new TextListItem(string.Empty) { IsCodeBlock = true, });
+
+            return newVm;
         }
 
         [Conditional("DEBUG")]
