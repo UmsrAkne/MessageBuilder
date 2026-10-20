@@ -550,7 +550,7 @@
                     Background="Transparent"
                     BorderBrush="IndianRed"
                     BorderThickness="1"
-                    Command="{Binding SelectedTab.StashCurrentTabCommand}"
+                    Command="{Binding StashCurrentTabCommand}"
                     Content="Stash and new tab ( Ctrl + Shift + S )"
                     DockPanel.Dock="Left"
                     FontSize="16"
