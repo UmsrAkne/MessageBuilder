@@ -29,7 +29,9 @@ namespace MessageBuilder.Services
                 if (sb.Length > 0)
                 {
                     sb.AppendLine();
-                    sb.AppendLine();
+
+                    // WebUI等で完全な空行の描画が省略されるのを防止するため、半角スペースを1つ挿入する
+                    sb.AppendLine(" ");
                 }
 
                 if (item.IsCodeBlock)

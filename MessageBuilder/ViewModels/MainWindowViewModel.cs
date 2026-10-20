@@ -8,10 +8,10 @@ namespace MessageBuilder.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class MainWindowViewModel : BindableBase
     {
-        private string title = "MessageBuilder";
         private readonly IClipboardWatchService clipboardWatchService;
         private readonly Func<TextListViewModel>? textListViewModelFactory;
         private readonly TextListSerializer textListSerializer;
+        private string title = "MessageBuilder";
         private bool isClipboardWatching;
         private TextListViewModel? selectedTab;
 
