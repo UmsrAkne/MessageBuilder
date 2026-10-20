@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using CommunityToolkit.Mvvm.Input;
 using MessageBuilder.Models;
@@ -13,9 +15,11 @@ namespace MessageBuilder.ViewModels
         private AsyncRelayCommand copyToClipboardCommand;
         private TextListItem? selectedItem;
         private string tabHeader;
+        private TextListItem? currentFirstItem;
 
         public TextListViewModel(ToastService toastService)
         {
+            TextListItems.CollectionChanged += OnTextListItemsCollectionChanged;
             this.toastService = toastService;
         }
 
@@ -128,6 +132,66 @@ namespace MessageBuilder.ViewModels
             }
 
             TextListItems.Move(index, Math.Max(Math.Min(index + moveIndex, TextListItems.Count), 0));
+        }
+
+        private void OnTextListItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateFirstItemSubscription();
+            UpdateTabHeader();
+        }
+
+        /// <summary>
+        /// 先頭アイテムのテキスト変更イベントの購読を更新します。
+        /// </summary>
+        private void UpdateFirstItemSubscription()
+        {
+            var newFirstItem = TextListItems.FirstOrDefault();
+
+            if (ReferenceEquals(currentFirstItem, newFirstItem))
+            {
+                return;
+            }
+
+            if (currentFirstItem != null)
+            {
+                currentFirstItem.PropertyChanged -= OnFirstItemPropertyChanged;
+            }
+
+            currentFirstItem = newFirstItem;
+
+            if (currentFirstItem != null)
+            {
+                currentFirstItem.PropertyChanged += OnFirstItemPropertyChanged;
+            }
+        }
+
+        private void OnFirstItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TextListItem.Text))
+            {
+                UpdateTabHeader();
+            }
+        }
+
+        /// <summary>
+        /// 先頭アイテムのテキストから TabHeader を生成・設定します。
+        /// </summary>
+        private void UpdateTabHeader()
+        {
+            var firstItem = TextListItems.FirstOrDefault();
+            if (firstItem == null || string.IsNullOrWhiteSpace(firstItem.Text))
+            {
+                TabHeader = "new Tab";
+                return;
+            }
+
+            // 改行を取り除き、先頭から文字を取得する。
+            var singleLineText = firstItem.Text.Replace("\r", string.Empty).Replace("\n", " ").Trim();
+            const int maxLength = 12;
+
+            TabHeader = singleLineText.Length > maxLength
+                ? $"{singleLineText[..maxLength]}..."
+                : singleLineText;
         }
     }
 }
