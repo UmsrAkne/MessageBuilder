@@ -18,12 +18,12 @@
     <Window.InputBindings>
         <KeyBinding
             Key="C"
-            Command="{Binding SelectedTab.CopyToClipboardAsyncCommand}"
+            Command="{Binding SelectedTab.CopyToClipboardAsyncCommand, FallbackValue={x:Null}}"
             Modifiers="Control+Shift" />
 
         <KeyBinding
             Key="N"
-            Command="{Binding SelectedTab.AddTextItemCommand}"
+            Command="{Binding SelectedTab.AddTextItemCommand, FallbackValue={x:Null}}"
             Modifiers="Control" />
 
         <KeyBinding
@@ -33,17 +33,17 @@
 
         <KeyBinding
             Key="B"
-            Command="{Binding SelectedTab.SetCodeBlockCommand}"
+            Command="{Binding SelectedTab.SetCodeBlockCommand, FallbackValue={x:Null}}"
             Modifiers="Control" />
 
         <KeyBinding
             Key="U"
-            Command="{Binding SelectedTab.MoveUpItemCommand}"
+            Command="{Binding SelectedTab.MoveUpItemCommand, FallbackValue={x:Null}}"
             Modifiers="Control+Shift" />
 
         <KeyBinding
             Key="D"
-            Command="{Binding SelectedTab.MoveDownItemCommand}"
+            Command="{Binding SelectedTab.MoveDownItemCommand, FallbackValue={x:Null}}"
             Modifiers="Control+Shift" />
 
     </Window.InputBindings>
@@ -371,7 +371,7 @@
                                                         Height="24"
                                                         Margin="1,0"
                                                         Padding="0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.ToggleCodeblockCommand}"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.ToggleCodeblockCommand, FallbackValue={x:Null}}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         ToolTip="Code / Plain text">
@@ -400,7 +400,7 @@
                                                         Height="24"
                                                         Margin="1,0"
                                                         Padding="0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.MoveUpItemCommand}"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.MoveUpItemCommand, FallbackValue={x:Null}}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         ToolTip="Move up ( Ctrl + Shift + U )">
@@ -417,7 +417,7 @@
                                                         Height="24"
                                                         Margin="1,0"
                                                         Padding="0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.MoveDownItemCommand}"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.MoveDownItemCommand, FallbackValue={x:Null}}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         ToolTip="Move down ( Ctrl + Shift + D )">
@@ -441,7 +441,7 @@
                                                         Height="24"
                                                         Margin="1,0"
                                                         Padding="0"
-                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.DeleteTextItemCommand}"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.DeleteTextItemCommand, FallbackValue={x:Null}}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         ToolTip="削除">
@@ -561,7 +561,7 @@
                 <Button
                     Padding="20,6"
                     mah:ControlsHelper.ContentCharacterCasing="Normal"
-                    Command="{Binding SelectedTab.AddTextItemCommand}"
+                    Command="{Binding SelectedTab.AddTextItemCommand, FallbackValue={x:Null}}"
                     Content="Add ( Ctrl + N )"
                     DockPanel.Dock="Right"
                     FontSize="16"
@@ -570,7 +570,7 @@
                 <Button
                     Padding="20,6"
                     mah:ControlsHelper.ContentCharacterCasing="Normal"
-                    Command="{Binding SelectedTab.CopyToClipboardAsyncCommand}"
+                    Command="{Binding SelectedTab.CopyToClipboardAsyncCommand, FallbackValue={x:Null}}"
                     Content="Copy ( Ctrl + Shift + C )"
                     DockPanel.Dock="Right"
                     FontSize="16"
