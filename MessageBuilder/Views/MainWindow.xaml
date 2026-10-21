@@ -46,6 +46,16 @@
             Command="{Binding SelectedTab.MoveDownItemCommand, FallbackValue={x:Null}}"
             Modifiers="Control+Shift" />
 
+        <KeyBinding
+            Key="I"
+            Command="{Binding SelectedTab.CreateCodeBlockItemFromClipboardCommand, FallbackValue={x:Null}}"
+            Modifiers="Shift+Control" />
+
+        <KeyBinding
+            Key="I"
+            Command="{Binding SelectedTab.CreatePlainTextItemFromClipboardCommand, FallbackValue={x:Null}}"
+            Modifiers="Control" />
+
     </Window.InputBindings>
     <Grid Margin="4">
         <Grid.RowDefinitions>

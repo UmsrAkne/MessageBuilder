@@ -94,6 +94,18 @@ namespace MessageBuilder.ViewModels
                 await toastService.ShowToastAsync("Copied to clipboard");
             });
 
+        public DelegateCommand CreatePlainTextItemFromClipboardCommand => new (() =>
+        {
+            var text = Clipboard.GetText();
+            TextListItems.Add(new TextListItem(text));
+        });
+
+        public DelegateCommand CreateCodeBlockItemFromClipboardCommand => new (() =>
+        {
+            var text = Clipboard.GetText();
+            TextListItems.Add(new TextListItem(text) { IsCodeBlock = true, });
+        });
+
         public TextListDto ExportData()
         {
             return new TextListDto(
