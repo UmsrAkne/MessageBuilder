@@ -476,6 +476,7 @@
                                             CornerRadius="0,0,5,5">
                                             <TextBox
                                                 x:Name="ContentTextBox"
+                                                MaxHeight="600"
                                                 AcceptsReturn="True"
                                                 Background="Transparent"
                                                 BorderThickness="0"
