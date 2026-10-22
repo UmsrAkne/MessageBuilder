@@ -579,6 +579,7 @@
                     FontWeight="Bold" />
 
                 <Button
+                    Margin="10,0"
                     Padding="20,6"
                     mah:ControlsHelper.ContentCharacterCasing="Normal"
                     Command="{Binding SelectedTab.CopyToClipboardAsyncCommand, FallbackValue={x:Null}}"
@@ -588,7 +589,6 @@
                     FontWeight="Bold" />
 
                 <ToggleButton
-                    Margin="5,0"
                     Padding="20,6"
                     Content="Watch Clipboard"
                     DockPanel.Dock="Right"
