@@ -89,7 +89,7 @@
                             <ControlTemplate TargetType="TabItem">
                                 <Border
                                     x:Name="headerBorder"
-                                    Margin="2,0"
+                                    Margin="2,1"
                                     Padding="4,2"
                                     Background="#303030"
                                     CornerRadius="4,4,0,0">
