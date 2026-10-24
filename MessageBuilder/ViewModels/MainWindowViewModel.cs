@@ -82,6 +82,11 @@ namespace MessageBuilder.ViewModels
             SelectedTab = newTab;
         });
 
+        public DelegateCommand<TextListViewModel> RemoveTextListItemCommand => new ((item) =>
+        {
+            TextListViewModels.Remove(item);
+        });
+
         private void OnTextCopied(object? sender, string text)
         {
             if (!IsClipboardWatching || SelectedTab == null)
