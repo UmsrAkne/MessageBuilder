@@ -11,7 +11,7 @@ namespace MessageBuilder.ViewModels
     public class TextListViewModel : BindableBase
     {
         private readonly ToastService toastService;
-        private PromptBuilder promptBuilder = new ();
+        private readonly PromptBuilder promptBuilder = new ();
         private AsyncRelayCommand copyToClipboardCommand;
         private TextListItem? selectedItem;
         private string tabHeader;
