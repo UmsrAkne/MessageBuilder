@@ -15,7 +15,7 @@ namespace MessageBuilder.ViewModels
         private string title = "MessageBuilder";
         private bool isClipboardWatching;
         private TextListViewModel? selectedTab;
-        private AsyncRelayCommand stashAndCopyCommand;
+        private AsyncRelayCommand? stashAndCopyCommand;
 
         public MainWindowViewModel()
         {
@@ -85,7 +85,7 @@ namespace MessageBuilder.ViewModels
         });
 
         public AsyncRelayCommand StashAndCopyAsyncCommand =>
-            stashAndCopyCommand = new AsyncRelayCommand(async () =>
+            stashAndCopyCommand ??= new AsyncRelayCommand(async () =>
             {
                 if (SelectedTab == null)
                 {
@@ -123,7 +123,7 @@ namespace MessageBuilder.ViewModels
             var newVm = textListViewModelFactory();
             newVm.TabHeader = tabHeader;
 
-            newVm.TextListItems.Add(new TextListItem(string.Empty) { });
+            newVm.TextListItems.Add(new TextListItem(string.Empty));
             newVm.TextListItems.Add(new TextListItem(string.Empty) { IsCodeBlock = true, });
 
             return newVm;
