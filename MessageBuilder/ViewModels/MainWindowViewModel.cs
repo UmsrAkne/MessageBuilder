@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using CommunityToolkit.Mvvm.Input;
 using MessageBuilder.Services;
 using MessageBuilder.Utils;
 
@@ -14,6 +15,7 @@ namespace MessageBuilder.ViewModels
         private string title = "MessageBuilder";
         private bool isClipboardWatching;
         private TextListViewModel? selectedTab;
+        private AsyncRelayCommand stashAndCopyCommand;
 
         public MainWindowViewModel()
         {
@@ -81,6 +83,18 @@ namespace MessageBuilder.ViewModels
             TextListViewModels.Insert(0, newTab);
             SelectedTab = newTab;
         });
+
+        public AsyncRelayCommand StashAndCopyAsyncCommand =>
+            stashAndCopyCommand = new AsyncRelayCommand(async () =>
+            {
+                if (SelectedTab == null)
+                {
+                    return;
+                }
+
+                await SelectedTab.CopyToClipboardAsyncCommand.ExecuteAsync(null);
+                StashCurrentTabCommand.Execute();
+            });
 
         public DelegateCommand<TextListViewModel> RemoveTextListItemCommand => new ((item) =>
         {
