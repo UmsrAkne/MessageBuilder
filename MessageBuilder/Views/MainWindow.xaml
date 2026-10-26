@@ -9,6 +9,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:MessageBuilder.ViewModels"
+    xmlns:views="clr-namespace:MessageBuilder.Views"
     Title="{Binding Title}"
     Width="1024"
     Height="480"
@@ -402,7 +403,8 @@
                                                     Grid.Column="0"
                                                     VerticalAlignment="Center"
                                                     Orientation="Horizontal">
-                                                    <CheckBox
+
+                                                    <views:CustomCheckBox
                                                         Margin="0,0,8,0"
                                                         VerticalAlignment="Center"
                                                         IsChecked="{Binding IsIncluded}"
