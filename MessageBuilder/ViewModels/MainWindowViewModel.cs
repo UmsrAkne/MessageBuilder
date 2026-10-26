@@ -92,6 +92,12 @@ namespace MessageBuilder.ViewModels
                     return;
                 }
 
+                if (SelectedTab.TextListItems.All(t => string.IsNullOrWhiteSpace(t.Text)))
+                {
+                    await ToastService.ShowToastAsync(ToastService.NoTextToCopyMessage);
+                    return;
+                }
+
                 await SelectedTab.CopyToClipboardAsyncCommand.ExecuteAsync(null);
                 StashCurrentTabCommand.Execute();
             });
