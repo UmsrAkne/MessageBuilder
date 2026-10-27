@@ -31,8 +31,7 @@ namespace MessageBuilder.ViewModels
         {
             ToastService = toastService;
             this.textListViewModelFactory = textListViewModelFactory;
-            var defaultVm = textListViewModelFactory();
-            defaultVm.TabHeader = "Default";
+            var defaultVm = CreateNewTab("Default");
             TextListViewModels.Add(defaultVm);
             SelectedTab = defaultVm;
 
