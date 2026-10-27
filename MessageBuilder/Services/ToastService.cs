@@ -2,6 +2,7 @@
 {
     public sealed class ToastService : BindableBase, IDisposable
     {
+        public readonly static string NoTextToCopyMessage = "There is no text to copy.";
         private bool isToastVisible;
         private string toastMessage = string.Empty;
         private CancellationTokenSource? toastCts;

@@ -31,8 +31,7 @@ namespace MessageBuilder.ViewModels
         {
             ToastService = toastService;
             this.textListViewModelFactory = textListViewModelFactory;
-            var defaultVm = textListViewModelFactory();
-            defaultVm.TabHeader = "Default";
+            var defaultVm = CreateNewTab("Default");
             TextListViewModels.Add(defaultVm);
             SelectedTab = defaultVm;
 
@@ -89,6 +88,12 @@ namespace MessageBuilder.ViewModels
             {
                 if (SelectedTab == null)
                 {
+                    return;
+                }
+
+                if (SelectedTab.TextListItems.All(t => string.IsNullOrWhiteSpace(t.Text)))
+                {
+                    await ToastService.ShowToastAsync(ToastService.NoTextToCopyMessage);
                     return;
                 }
 
