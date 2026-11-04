@@ -5,6 +5,7 @@ using System.Windows;
 using CommunityToolkit.Mvvm.Input;
 using MessageBuilder.Models;
 using MessageBuilder.Services;
+using MessageBuilder.Utils;
 
 namespace MessageBuilder.ViewModels
 {
@@ -87,11 +88,7 @@ namespace MessageBuilder.ViewModels
         public AsyncRelayCommand CopyToClipboardAsyncCommand =>
             copyToClipboardCommand = new AsyncRelayCommand(async () =>
             {
-                var result = promptBuilder.BuildPrompt([.. TextListItems,]);
-                LastCopiedText = result;
-                Clipboard.SetText(result);
-
-                await toastService.ShowToastAsync("Copied to clipboard");
+                await CopyToClipboardAsync();
             });
 
         public DelegateCommand CreatePlainTextItemFromClipboardCommand => new (() =>
@@ -133,6 +130,22 @@ namespace MessageBuilder.ViewModels
 
                 TextListItems.Add(item);
             }
+        }
+
+        public async Task<bool> CopyToClipboardAsync()
+        {
+            var result = promptBuilder.BuildPrompt([.. TextListItems,]);
+            LastCopiedText = result;
+
+            var isSuccess = await ClipboardHelper.TrySetTextAsync(result);
+            if (isSuccess)
+            {
+                await toastService.ShowToastAsync("Copied to clipboard");
+                return true;
+            }
+
+            await toastService.ShowToastAsync("Failed to copy to clipboard.");
+            return false;
         }
 
         private void MoveItem(TextListItem param, int moveIndex)
