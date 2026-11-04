@@ -98,7 +98,11 @@ namespace MessageBuilder.ViewModels
                 }
 
                 await SelectedTab.CopyToClipboardAsyncCommand.ExecuteAsync(null);
-                StashCurrentTabCommand.Execute();
+                var isSuccess = await SelectedTab.CopyToClipboardAsync();
+                if (isSuccess)
+                {
+                    StashCurrentTabCommand.Execute();
+                }
             });
 
         public DelegateCommand<TextListViewModel> RemoveTextListItemCommand => new ((item) =>

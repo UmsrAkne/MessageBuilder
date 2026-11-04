@@ -37,6 +37,16 @@
 
         public bool IsSelected { get => isSelected; set => SetProperty(ref isSelected, value); }
 
+        public DelegateCommand<string> PasteTextCommand => new ((pastedText) =>
+        {
+            if (string.IsNullOrEmpty(pastedText))
+            {
+                return;
+            }
+
+            Text += pastedText;
+        });
+
         public void ToggleCodeBlock()
         {
             if (IsCodeBlock)
