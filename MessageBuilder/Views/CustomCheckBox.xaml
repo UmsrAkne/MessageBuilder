@@ -8,6 +8,8 @@
     x:Name="Root"
     d:DesignHeight="300"
     d:DesignWidth="300"
+    FocusVisualStyle="{x:Null}"
+    IsTabStop="False"
     mc:Ignorable="d">
     <UserControl.Resources>
         <!-- カラーパレット（ダークテーマ用：必要に応じてアプリのテーマ色に合わせて変更してください） -->
@@ -165,6 +167,8 @@
     <CheckBox
         Command="{Binding ElementName=Root, Path=Command}"
         CommandParameter="{Binding ElementName=Root, Path=CommandParameter}"
+        FocusVisualStyle="{x:Null}"
         IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        IsTabStop="False"
         Style="{StaticResource ModernDarkCheckBoxStyle}" />
 </UserControl>

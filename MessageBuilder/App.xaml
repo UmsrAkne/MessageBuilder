@@ -24,6 +24,10 @@
             </ResourceDictionary.MergedDictionaries>
 
             <system:Double x:Key="GlobalFontSize">15</system:Double>
+
+            <Style TargetType="Frame">
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
