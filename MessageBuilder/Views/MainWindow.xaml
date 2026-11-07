@@ -637,20 +637,6 @@
             <StackPanel>
 
                 <DockPanel LastChildFill="False">
-                    <!-- 危険な操作は左端へ（目立たせすぎず、誤爆しにくい位置） -->
-                    <Button
-                        Padding="12,6"
-                        mah:ControlsHelper.ContentCharacterCasing="Normal"
-                        Background="Transparent"
-                        BorderBrush="IndianRed"
-                        BorderThickness="1"
-                        Command="{Binding StashCurrentTabCommand}"
-                        Content="Stash and new tab ( Ctrl + Shift + S )"
-                        DockPanel.Dock="Left"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Foreground="IndianRed" />
-
                     <!-- 主操作は右端へ -->
                     <Button
                         Padding="20,6"
@@ -679,7 +665,7 @@
                         IsChecked="{Binding IsClipboardWatching}" />
 
                 </DockPanel>
-                <DockPanel Margin="0,4,0,0" HorizontalAlignment="Right">
+                <DockPanel Margin="0,4,0,0">
                     <Button
                         Padding="20,6"
                         mah:ControlsHelper.ContentCharacterCasing="Normal"
@@ -688,7 +674,22 @@
                         DockPanel.Dock="Right"
                         FontSize="16"
                         FontWeight="Bold" />
+
+                    <Button
+                        Padding="12,6"
+                        HorizontalAlignment="Left"
+                        mah:ControlsHelper.ContentCharacterCasing="Normal"
+                        Background="Transparent"
+                        BorderBrush="IndianRed"
+                        BorderThickness="1"
+                        Command="{Binding StashCurrentTabCommand}"
+                        Content="Stash and new tab ( Ctrl + Shift + S )"
+                        DockPanel.Dock="Left"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="IndianRed" />
                 </DockPanel>
+
             </StackPanel>
         </Border>
 
