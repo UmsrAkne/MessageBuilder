@@ -479,6 +479,39 @@
                                                         </materialDesign:PackIcon>
                                                     </Button>
 
+                                                    <!-- テキスト折り返しの切り替えボタン -->
+                                                    <Button
+                                                        Width="26"
+                                                        Height="24"
+                                                        Margin="1,0"
+                                                        Padding="0"
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=DataContext.SelectedTab.ToggleWorWrapEnabledCommand, FallbackValue={x:Null}}"
+                                                        CommandParameter="{Binding}"
+                                                        FocusVisualStyle="{x:Null}"
+                                                        IsTabStop="False"
+                                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                                        ToolTip="Wrap Text">
+                                                        <materialDesign:PackIcon Width="16" Height="16">
+                                                            <materialDesign:PackIcon.Style>
+                                                                <Style TargetType="materialDesign:PackIcon">
+                                                                    <!-- 通常テキスト時のスタイル -->
+                                                                    <Setter Property="Kind" Value="KeyboardReturn" />
+                                                                    <Setter Property="Foreground" Value="LightGray" />
+                                                                    <Setter Property="Opacity" Value="0.3" />
+
+                                                                    <Style.Triggers>
+                                                                        <!-- コードブロック時のスタイル（ハイライト） -->
+                                                                        <DataTrigger Binding="{Binding IsWordWrapEnabled}" Value="True">
+                                                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+                                                                            <Setter Property="Opacity" Value="1.0" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </materialDesign:PackIcon.Style>
+                                                        </materialDesign:PackIcon>
+                                                    </Button>
+
+
                                                     <!-- 上へ移動 -->
                                                     <Button
                                                         Width="26"
@@ -563,8 +596,18 @@
                                                 BorderThickness="0"
                                                 HorizontalScrollBarVisibility="Auto"
                                                 Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-                                                TextWrapping="NoWrap"
-                                                VerticalScrollBarVisibility="Auto" />
+                                                VerticalScrollBarVisibility="Auto">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Setter Property="TextWrapping" Value="NoWrap" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsWordWrapEnabled}" Value="true">
+                                                                <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
                                         </Border>
                                     </Grid>
                                 </Border>
