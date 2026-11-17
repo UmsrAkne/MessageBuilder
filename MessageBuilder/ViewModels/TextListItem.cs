@@ -8,6 +8,7 @@
         private bool isIncluded = true;
         private string previousInfo = string.Empty;
         private bool isSelected;
+        private bool isWordWrapEnabled;
 
         public TextListItem(string text)
         {
@@ -36,6 +37,12 @@
         public bool IsIncluded { get => isIncluded; set => SetProperty(ref isIncluded, value); }
 
         public bool IsSelected { get => isSelected; set => SetProperty(ref isSelected, value); }
+
+        public bool IsWordWrapEnabled
+        {
+            get => isWordWrapEnabled;
+            set => SetProperty(ref isWordWrapEnabled, value);
+        }
 
         public DelegateCommand<string> PasteTextCommand => new ((pastedText) =>
         {

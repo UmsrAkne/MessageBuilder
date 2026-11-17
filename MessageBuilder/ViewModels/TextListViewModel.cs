@@ -75,6 +75,11 @@ namespace MessageBuilder.ViewModels
             item.ToggleCodeBlock();
         });
 
+        public DelegateCommand<TextListItem> ToggleWorWrapEnabledCommand => new ((item) =>
+        {
+            item.IsWordWrapEnabled = !item.IsWordWrapEnabled;
+        });
+
         public DelegateCommand SetCodeBlockCommand => new (() =>
         {
             if (SelectedItem == null)
