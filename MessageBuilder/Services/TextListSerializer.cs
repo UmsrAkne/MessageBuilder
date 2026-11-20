@@ -47,6 +47,15 @@ namespace MessageBuilder.Services
             return savedPaths;
         }
 
+        public void SerializeSingle(TextListViewModel viewModel, string fullPath)
+        {
+            Directory.CreateDirectory(fullPath);
+            var data = viewModel.ExportData();
+            var json = JsonSerializer.Serialize(data, JsonOptions);
+
+            File.WriteAllText(fullPath, json);
+        }
+
         public void DeserializeInto(string filePath, TextListViewModel targetViewModel)
         {
             var json = File.ReadAllText(filePath);
