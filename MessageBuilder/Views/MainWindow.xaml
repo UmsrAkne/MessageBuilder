@@ -90,6 +90,19 @@
 
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
+                    <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=TabControl}}" />
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem
+                                    Command="{Binding PlacementTarget.Tag.SetTabAsDefaultCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                    Header="このタブを新規タブのデフォルトに設定" />
+                                <Separator />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">

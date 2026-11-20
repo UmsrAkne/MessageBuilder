@@ -12,6 +12,7 @@ namespace MessageBuilder.ViewModels
         private readonly IClipboardWatchService clipboardWatchService;
         private readonly Func<TextListViewModel>? textListViewModelFactory;
         private readonly TextListSerializer textListSerializer;
+        private readonly TabTemplateService templateService = new ();
         private string title = "MessageBuilder";
         private bool isClipboardWatching;
         private TextListViewModel? selectedTab;
@@ -110,6 +111,14 @@ namespace MessageBuilder.ViewModels
             TextListViewModels.Remove(item);
         });
 
+        public DelegateCommand<TextListViewModel?> SetTabAsDefaultCommand => new ((param) =>
+        {
+            if (param != null)
+            {
+                templateService.SaveAsTemplate(param);
+            }
+        });
+
         private void OnTextCopied(object? sender, string text)
         {
             if (!IsClipboardWatching || SelectedTab == null)
@@ -129,11 +138,25 @@ namespace MessageBuilder.ViewModels
 
         private TextListViewModel CreateNewTab(string tabHeader)
         {
+            if (textListViewModelFactory == null)
+            {
+                throw new InvalidOperationException("textListViewModelFactory が null です。DI の解決に失敗していないか確認してください。");
+            }
+
             var newVm = textListViewModelFactory();
             newVm.TabHeader = tabHeader;
 
-            newVm.TextListItems.Add(new TextListItem(string.Empty));
-            newVm.TextListItems.Add(new TextListItem(string.Empty) { IsCodeBlock = true, });
+            if (templateService.HasTemplate())
+            {
+                templateService.LoadTemplate(newVm);
+                newVm.TabHeader = tabHeader;
+            }
+            else
+            {
+                // テンプレートがない場合のフォールバック
+                newVm.TextListItems.Add(new TextListItem(string.Empty));
+                newVm.TextListItems.Add(new TextListItem(string.Empty) { IsCodeBlock = true, });
+            }
 
             return newVm;
         }

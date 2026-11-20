@@ -49,7 +49,12 @@ namespace MessageBuilder.Services
 
         public void SerializeSingle(TextListViewModel viewModel, string fullPath)
         {
-            Directory.CreateDirectory(fullPath);
+            var directoryPath = Path.GetDirectoryName(fullPath);
+            if (!string.IsNullOrEmpty(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
             var data = viewModel.ExportData();
             var json = JsonSerializer.Serialize(data, JsonOptions);
 
