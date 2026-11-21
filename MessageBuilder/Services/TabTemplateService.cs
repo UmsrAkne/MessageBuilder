@@ -31,5 +31,10 @@ namespace MessageBuilder.Services
         {
             textListSerializer.SerializeSingle(sourceVm, templateFilePath);
         }
+
+        public void RemoveTemplate()
+        {
+            File.Delete(templateFilePath);
+        }
     }
 }
