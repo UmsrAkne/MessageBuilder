@@ -98,6 +98,11 @@
                                     Command="{Binding PlacementTarget.Tag.SetTabAsDefaultCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                     CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                     Header="このタブを新規タブのデフォルトに設定" />
+
+                                <MenuItem
+                                    Command="{Binding PlacementTarget.Tag.ResetDefaultTabSettingCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                    Header="初期タブをリセット" />
                                 <Separator />
                             </ContextMenu>
                         </Setter.Value>

@@ -119,6 +119,11 @@ namespace MessageBuilder.ViewModels
             }
         });
 
+        public DelegateCommand ResetDefaultTabSettingCommand => new (() =>
+        {
+            templateService.RemoveTemplate();
+        });
+
         private void OnTextCopied(object? sender, string text)
         {
             if (!IsClipboardWatching || SelectedTab == null)
